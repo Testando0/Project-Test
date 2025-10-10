@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Black Drama</title>
+    <title>404 | Kuromi Black Drama V2</title>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Chicle&display=swap" rel="stylesheet">
     <style>
         /* Cores de Alto Contraste */
         :root {
-            --kuromi-bg-claro: #1A1A1A;     /* AGORA: Preto Intenso */
-            --kuromi-bg-escuro: #FFFFFF;    /* AGORA: Branco */
+            --kuromi-bg-claro: #1A1A1A;     /* Preto Intenso (Fundo) */
+            --kuromi-bg-escuro: #FFFFFF;    /* Branco (Contraste) */
             --kuromi-roxo: #9933FF;         /* Roxo Drama */
             --kuromi-pink-drama: #FF00FF;   /* Pink Magenta Shock */
         }
@@ -21,15 +21,13 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            /* Fundo preto */
             background-color: var(--kuromi-bg-claro); 
-            /* Cor do texto para contraste */
             color: var(--kuromi-bg-escuro); 
             overflow: hidden;
             position: relative;
         }
 
-        /* Fundo Quadriculado (Estilo Drama Kuromi) - Invertido para Preto/Branco */
+        /* Fundo Quadriculado - Preto/Branco */
         body::before {
             content: '';
             position: absolute;
@@ -53,8 +51,8 @@
         .code-container {
             text-align: center;
             padding: 40px;
-            /* Fundo do Container Branco para Destacar */
-            background: rgba(255, 255, 255, 0.9);
+            /* CORRIGIDO: Fundo do Container agora é PRETO semi-transparente */
+            background: rgba(0, 0, 0, 0.9); 
             border: 5px solid var(--kuromi-roxo);
             border-radius: 20px;
             box-shadow: 0 0 40px var(--kuromi-pink-drama);
@@ -70,7 +68,7 @@
             font-family: 'Bungee Inline', cursive;
             font-size: 10em; 
             color: var(--kuromi-pink-drama);
-            /* Sombra agora usa as cores de fundo invertidas */
+            /* A sombra usa o Branco (Contraste) para destacar o número */
             text-shadow: 8px 8px 0px var(--kuromi-roxo), 
                          12px 12px 0px var(--kuromi-bg-escuro); 
             line-height: 1;
@@ -97,8 +95,8 @@
             font-size: 35px;
             line-height: 1;
             z-index: 11;
-            /* Sombra que contrasta com o fundo escuro */
-            filter: drop-shadow(0 0 5px var(--kuromi-bg-claro)); 
+            /* Filtro de sombra para contraste */
+            filter: drop-shadow(0 0 5px var(--kuromi-bg-escuro)); 
         }
 
         /* Responsividade */
