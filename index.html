@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Ajuste Vertical Final</title>
+    <title>404 | Kuromi Efeito 3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -24,15 +24,32 @@
             background-color: var(--kuromi-dark); 
             overflow: hidden;
         }
+
+        /* ANIMAÇÃO CHAVE: Zoom In do Fundo */
+        @keyframes zoomIn {
+            0% { 
+                transform: scale(0.1); /* Começa muito pequeno */
+                opacity: 0;            /* Começa transparente */
+            }
+            70% { 
+                transform: scale(1.05); /* Passa um pouco do tamanho final para um "efeito elástico" */
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(1);   /* Finaliza no tamanho normal */
+                opacity: 1;
+            }
+        }
         
         .code-container {
             display: flex;
             align-items: center; 
             justify-content: center;
-            /* AJUSTE HORIZONTAL: Puxa para a esquerda */
             margin-left: -2em;
-            /* CHAVE DA CORREÇÃO: Puxa para cima (20% da tela) */
             margin-top: -20vh; 
+            
+            /* Aplica a animação */
+            animation: zoomIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
         }
 
         .code {
@@ -100,7 +117,7 @@
         @media (max-width: 900px) {
             .code-container {
                 margin-left: -1em; 
-                margin-top: -10vh; /* Ajuste vertical menor para telas menores */
+                margin-top: -10vh; 
             }
             .code {
                 font-size: 10em;
