@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Posição Final</title>
+    <title>404 | Kuromi Posicionamento Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -19,6 +19,7 @@
             margin: 0;
             display: flex;
             justify-content: center; 
+            /* Centraliza verticalmente no meio da tela */
             align-items: center; 
             min-height: 100vh;
             background-color: var(--kuromi-dark); 
@@ -46,9 +47,9 @@
             align-items: center; 
             justify-content: center;
             
-            /* AJUSTE HORIZONTAL: Puxa para a esquerda */
+            /* DESLOCAMENTO FINAL: 2cm para a esquerda (negativo) */
             margin-left: -2em;
-            /* CHAVE DA CORREÇÃO: Empurra 1em para BAIXO do centro */
+            /* DESLOCAMENTO FINAL: 1cm para baixo (positivo) */
             margin-top: 1em; 
             
             /* Aplica a animação */
@@ -120,7 +121,7 @@
         @media (max-width: 900px) {
             .code-container {
                 margin-left: -1em; 
-                margin-top: 0.5em; /* Ajuste menor para telas menores */
+                margin-top: 0.5em; /* Ajuste para telas menores */
             }
             .code {
                 font-size: 10em;
