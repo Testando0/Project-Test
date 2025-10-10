@@ -3,129 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Black Drama V2</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Chicle&display=swap" rel="stylesheet">
+    <title>404 | Kuromi Black Rebel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Faster+One&display=swap" rel="stylesheet">
     <style>
-        /* Cores de Alto Contraste */
+        /* Cores Finais: Preto, Roxo, Pink */
         :root {
-            --kuromi-bg-claro: #1A1A1A;     /* Preto Intenso (Fundo) */
-            --kuromi-bg-escuro: #FFFFFF;    /* Branco (Contraste) */
-            --kuromi-roxo: #9933FF;         /* Roxo Drama */
-            --kuromi-pink-drama: #FF00FF;   /* Pink Magenta Shock */
+            --kuromi-dark: #1A1A1A;     /* Fundo: Preto */
+            --kuromi-white: #FFFFFF;    /* Contraste: Branco (para sombras) */
+            --kuromi-roxo: #7A00FF;     /* Roxo Elétrico */
+            --kuromi-pink: #FF1493;     /* Pink Profundo/Hot Pink */
         }
 
         body {
-            font-family: 'Chicle', cursive;
+            font-family: 'Monoton', sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: var(--kuromi-bg-claro); 
-            color: var(--kuromi-bg-escuro); 
+            background-color: var(--kuromi-dark); 
             overflow: hidden;
             position: relative;
         }
 
-        /* Fundo Quadriculado - Preto/Branco */
+        /* Fundo de Listras Diagonais Sombrias */
         body::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 200%;
-            height: 200%;
+            width: 150%;
+            height: 150%;
             background: repeating-linear-gradient(
-                45deg,
-                var(--kuromi-bg-escuro),
-                var(--kuromi-bg-escuro) 20px,
-                var(--kuromi-bg-claro) 20px,
-                var(--kuromi-bg-claro) 40px
+                -45deg,
+                var(--kuromi-dark),
+                var(--kuromi-dark) 25px,
+                var(--kuromi-roxo) 25px,
+                var(--kuromi-roxo) 50px
             );
-            background-size: 80px 80px;
-            opacity: 0.1; 
+            opacity: 0.15; 
             z-index: -1;
-            transform: translate(-25%, -25%);
-        }
-
-        .code-container {
-            text-align: center;
-            padding: 40px;
-            /* CORRIGIDO: Fundo do Container agora é PRETO semi-transparente */
-            background: rgba(0, 0, 0, 0.9); 
-            border: 5px solid var(--kuromi-roxo);
-            border-radius: 20px;
-            box-shadow: 0 0 40px var(--kuromi-pink-drama);
-            animation: popIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-        
-        @keyframes popIn {
-            0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            transform: rotate(45deg) translate(-25%, -25%);
         }
 
         .code {
-            font-family: 'Bungee Inline', cursive;
-            font-size: 10em; 
-            color: var(--kuromi-pink-drama);
-            /* A sombra usa o Branco (Contraste) para destacar o número */
-            text-shadow: 8px 8px 0px var(--kuromi-roxo), 
-                         12px 12px 0px var(--kuromi-bg-escuro); 
-            line-height: 1;
+            font-family: 'Faster One', cursive; /* Fonte angular, agressiva e estilizada */
+            font-size: 16em; /* Máximo impacto */
+            color: var(--kuromi-pink);
+            line-height: 0.9;
+            /* Estilo "Adesivo/Patch" com múltiplas bordas */
+            text-shadow: -8px -8px 0px var(--kuromi-roxo), 
+                          8px 8px 0px var(--kuromi-roxo),
+                         -16px -16px 0px var(--kuromi-dark),
+                          16px 16px 0px var(--kuromi-dark);
+            animation: glitch 1.5s infinite alternate; /* Toque de erro digital */
         }
 
-        /* Detalhe Kuromi (Orelha e Coração Partido CSS) */
-        .kuromi-detail {
+        /* Animação de Glitch/Tremor sutil */
+        @keyframes glitch {
+            0% { transform: translate(1px, 1px) skewX(0deg); }
+            50% { transform: translate(-1px, -1px) skewX(5deg); }
+            100% { transform: translate(1px, -1px) skewX(-5deg); }
+        }
+
+        /* Assinatura Kuromi: Caveira CSS (sem imagem) */
+        .kuromi-skull {
             position: absolute;
-            top: 30px;
-            left: 30px;
-            width: 80px;
-            height: 80px;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             background: var(--kuromi-roxo);
-            border-radius: 50% 50% 0 50%;
-            transform: rotate(-30deg);
+            border-radius: 50%;
+            border: 3px solid var(--kuromi-pink);
+            transform: rotate(10deg);
             z-index: 10;
         }
-        
-        .kuromi-detail::before {
-            content: '💔'; /* Coração Partido Emoji */
+
+        /* Olhos da Caveira (feitos com CSS) */
+        .kuromi-skull::before, .kuromi-skull::after {
+            content: '';
             position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--kuromi-dark);
+            border-radius: 50%;
             top: 15px;
-            left: 20px;
-            font-size: 35px;
-            line-height: 1;
-            z-index: 11;
-            /* Filtro de sombra para contraste */
-            filter: drop-shadow(0 0 5px var(--kuromi-bg-escuro)); 
+        }
+        .kuromi-skull::before { left: 10px; }
+        .kuromi-skull::after { right: 10px; }
+        
+        /* Nariz e Boca (feito com CSS) */
+        .kuromi-skull i {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--kuromi-dark);
+            border-radius: 0 0 5px 5px;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         /* Responsividade */
         @media (max-width: 768px) {
             .code {
-                font-size: 6em;
+                font-size: 10em;
             }
-            .code-container {
-                padding: 20px;
-            }
-            .kuromi-detail {
-                width: 60px;
-                height: 60px;
+            .kuromi-skull {
+                width: 40px;
+                height: 40px;
+                right: 10px;
                 top: 10px;
-                left: 10px;
-            }
-            .kuromi-detail::before {
-                font-size: 25px;
-                top: 10px;
-                left: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="kuromi-detail"></div>
-    
-    <div class="code-container">
-        <p class="code">404</p>
+    <div class="kuromi-skull">
+        <i></i>
     </div>
+    
+    <p class="code">404</p>
 </body>
 </html>
