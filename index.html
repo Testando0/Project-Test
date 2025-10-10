@@ -3,120 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha TV Online</title>
+    <title>ERRO 404 - A BAD GIRL NÃO ENCONTROU ISSO</title>
     <style>
+        /* Variáveis de Cores */
+        :root {
+            --kuromi-roxo: #6a0dad; /* Roxo Escuro */
+            --kuromi-rosa: #ff69b4; /* Rosa Choque/Hot Pink */
+            --kuromi-preto: #1a1a1a;
+            --kuromi-branco: #ffffff;
+        }
+
+        /* Estilos Básicos */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
-            margin: 0;
+            background-color: var(--kuromi-preto);
+            color: var(--kuromi-branco);
+            font-family: 'Consolas', 'Courier New', monospace; /* Fonte com cara de terminal/futurista */
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             min-height: 100vh;
-        }
-        header {
-            width: 100%;
-            padding: 20px 0;
-            background-color: #1f1f1f;
-            text-align: center;
-            border-bottom: 2px solid #333;
-        }
-        h1 {
             margin: 0;
-            font-size: 2.2em;
-            color: #ffffff;
-        }
-        .content {
+            overflow: hidden; /* Evita barras de rolagem */
             text-align: center;
-            padding: 20px;
+            perspective: 1000px; /* Para efeitos 3D */
         }
-        .warning {
-            background-color: #440c0c;
-            border: 1px solid #ff4444;
-            color: #ffffff;
-            padding: 15px;
-            margin: 20px;
-            border-radius: 8px;
-            max-width: 800px;
-        }
-        .video-container {
-            margin-top: 20px;
-            width: 90%;
-            max-width: 1200px;
-            position: relative;
-            padding-bottom: 50.625%; /* Proporção 16:9 */
-            height: 0;
-            overflow: hidden;
-            border: 3px solid #333;
+
+        /* Contêiner Principal */
+        .container {
+            padding: 30px;
+            border: 3px solid var(--kuromi-roxo);
+            box-shadow: 0 0 40px var(--kuromi-roxo), 0 0 10px var(--kuromi-roxo) inset;
+            max-width: 90%;
             border-radius: 10px;
-            background-color: #000;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.5);
         }
-        .video-container iframe {
+
+        /* Estilo para o Título 404 com efeito Glitch */
+        .glitch-title {
+            font-size: 8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            margin: 0;
+            color: var(--kuromi-rosa);
+            text-shadow: 0 0 10px var(--kuromi-roxo);
+            animation: text-flicker 0.005s linear infinite alternate;
+        }
+
+        /* Efeito Glitch (Falha Digital) */
+        .glitch-title::before,
+        .glitch-title::after {
+            content: '404 ERRO BAD GIRL';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: 0;
+            clip: rect(0, 0, 0, 0);
         }
-         .alternative-link {
+
+        .glitch-title::before {
+            text-shadow: -1px 0 var(--kuromi-roxo);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .glitch-title::after {
+            text-shadow: -1px 0 var(--kuromi-rosa);
+            clip: rect(85px, 450px, 100px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate;
+        }
+
+        /* Animações do Glitch */
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(25px, 9999px, 30px, 0); transform: skew(0.5deg); }
+            50% { clip: rect(50px, 9999px, 60px, 0); transform: skew(1deg); }
+            100% { clip: rect(75px, 9999px, 80px, 0); transform: skew(-0.5deg); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(10px, 9999px, 20px, 0); transform: skew(-0.5deg); }
+            50% { clip: rect(80px, 9999px, 90px, 0); transform: skew(-1deg); }
+            100% { clip: rect(45px, 9999px, 55px, 0); transform: skew(0.5deg); }
+        }
+
+        /* Texto Secundário */
+        p {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: var(--kuromi-rosa);
+            text-shadow: 0 0 5px rgba(255, 105, 180, 0.5);
+            line-height: 1.5;
+        }
+
+        /* Imagem de Kuromi (Opcional, mas dá o toque) */
+        .kuromi-icon {
+            margin: 20px 0;
+            width: 100px;
+            height: 100px;
+            /* Se não tiver uma imagem, substitua pela URL de uma SVG ou PNG */
+            /* Exemplo: background-image: url('URL_DA_SUA_IMAGEM_KUROMI'); */
+            /* Ou use um placeholder simples */
+            font-size: 5rem;
+            line-height: 100px;
+            color: var(--kuromi-roxo);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        /* Animação de pulsação */
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .kuromi-icon::before {
+            content: '😈'; /* Emoji para representar o estilo Kuromi se não houver imagem */
+        }
+        
+        /* Link de Ação */
+        .action-link {
+            display: inline-block;
             margin-top: 30px;
-        }
-        .alternative-link a {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 25px;
+            padding: 10px 20px;
+            background-color: var(--kuromi-roxo);
+            color: var(--kuromi-branco);
             text-decoration: none;
-            font-size: 1.1em;
-            font-weight: bold;
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid var(--kuromi-roxo);
+            box-shadow: 0 0 10px var(--kuromi-roxo);
+            font-weight: bold;
         }
-        .alternative-link a:hover {
-            background-color: #0056b3;
+
+        .action-link:hover {
+            background-color: var(--kuromi-rosa);
+            color: var(--kuromi-preto);
+            border-color: var(--kuromi-rosa);
+            box-shadow: 0 0 15px var(--kuromi-rosa);
+            transform: scale(1.05);
         }
-        footer {
+
+        /* Estilo de fundo (Matrix/Grid) */
+        .background-grid {
             position: absolute;
-            bottom: 0;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 10px;
-            text-align: center;
-            font-size: 0.9em;
-            color: #666;
+            height: 100%;
+            background: 
+                linear-gradient(to right, rgba(106, 13, 173, 0.1) 1px, transparent 1px), 
+                linear-gradient(to bottom, rgba(106, 13, 173, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            opacity: 0.5;
+            animation: grid-move 60s linear infinite;
+        }
+
+        @keyframes grid-move {
+            from { background-position: 0 0; }
+            to { background-position: 50px 50px; }
         }
     </style>
 </head>
 <body>
+    <div class="background-grid"></div>
+    <div class="container">
+        <h1 class="glitch-title">404 ERRO BAD GIRL</h1>
 
-    <header>
-        <h1>Painel de Transmissão</h1>
-    </header>
+        <div class="kuromi-icon"></div>
 
-    <div class="content">
-        <div class="warning">
-            <p><strong>Aviso:</strong> O site SSH101 provavelmente não irá carregar dentro desta página, pois ele bloqueia a incorporação. Se a tela abaixo estiver em branco, use o botão para abrir o site em uma nova aba.</p>
-        </div>
+        <p>
+            **Aviso do Sistema Kuromi (KS-900):**<br>
+            A página que você está procurando não existe. Ou talvez ela exista, mas eu decidi que você não deveria vê-la. Sou uma **Bad Girl**, afinal.
+        </p>
+        
+        <p style="font-size: 1.2rem; color: var(--kuromi-branco);">
+            **STATUS:** Acesso Negado [ID: KRM-404-001]
+        </p>
 
-        <div class="alternative-link">
-            <a href="https://ssh101.com" target="_blank">Abrir SSH101 em Nova Aba</a>
-        </div>
+        <a href="/" class="action-link">
+            // VOLTAR AO INÍCIO. AGORA.
+        </a>
     </div>
-    
-    <div class="video-container">
-        <iframe
-            src="https://ssh101.com"
-            title="Transmissão SSH101"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-        </iframe>
-    </div>
-
-    <footer>
-        <p>&copy; 2025 Seu Site de TV.</p>
-    </footer>
-
 </body>
 </html>
