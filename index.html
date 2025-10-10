@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Simples</title>
+    <title>404 | Kuromi Alinhado</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
         :root {
-            --kuromi-dark: #000000;     /* Fundo: Preto */
-            --kuromi-roxo: #7A00FF;     /* Roxo Clássico */
-            --kuromi-pink: #FF69B4;     /* Pink Fofo */
-            --kuromi-white: #FFFFFF;    /* Contraste */
+            --kuromi-dark: #000000;     
+            --kuromi-roxo: #7A00FF;     
+            --kuromi-pink: #FF69B4;     
+            --kuromi-white: #FFFFFF;    
         }
 
         body {
@@ -23,11 +23,10 @@
             min-height: 100vh;
             background-color: var(--kuromi-dark); 
             overflow: hidden;
-            position: relative;
         }
 
         .code-container {
-            position: relative;
+            /* FLEXBOX para alinhar perfeitamente no centro */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -39,22 +38,25 @@
             color: var(--kuromi-white);
             line-height: 0.8;
             letter-spacing: -5px;
-            /* Sombra simples para pop-out */
             text-shadow: 10px 10px 0px var(--kuromi-roxo), 
                          20px 20px 0px var(--kuromi-pink);
+            /* Garante que o número não seja esmagado pelo ícone */
+            flex-shrink: 0; 
         }
 
         /* Caveira de Kuromi (Elemento central que substitui o zero) */
         .kuromi-skull {
-            width: 140px;
-            height: 140px;
-            position: absolute;
+            /* TAMANHOS AJUSTADOS para equilibrar com os números 4 */
+            width: 130px; 
+            height: 130px;
+            position: relative; /* Mudado de absolute para relative */
             z-index: 10;
+            margin: 0 10px; /* Pequeno espaço entre os elementos */
             background-color: var(--kuromi-roxo); 
             border-radius: 50%;
             border: 5px solid var(--kuromi-pink);
-            /* Alinhamento para cobrir o '0' imaginário */
-            transform: translate(0, -10%);
+            /* Alinhamento vertical perfeito */
+            align-self: flex-start; 
         }
 
         /* Olhos da Caveira */
@@ -63,14 +65,14 @@
             position: absolute;
             width: 30px;
             height: 30px;
-            background: var(--kuromi-dark); /* Olhos pretos */
+            background: var(--kuromi-dark); 
             border-radius: 50%;
             top: 30px;
         }
         .kuromi-skull::before { left: 20px; }
         .kuromi-skull::after { right: 20px; }
         
-        /* Nariz da Caveira (Forma de V invertido) */
+        /* Nariz e Boca */
         .kuromi-skull i {
             position: absolute;
             width: 20px;
@@ -82,7 +84,7 @@
             transform: translateX(-50%);
         }
         
-        /* Arco da Kuromi (feito com CSS) */
+        /* Arco da Kuromi */
         .kuromi-skull b {
             content: '';
             position: absolute;
@@ -95,27 +97,31 @@
             border-radius: 10px;
         }
 
-
-        /* Responsividade */
-        @media (max-width: 768px) {
+        /* Responsividade para manter o alinhamento em telas menores */
+        @media (max-width: 900px) {
             .code {
                 font-size: 10em;
                 letter-spacing: -3px;
                 text-shadow: 5px 5px 0px var(--kuromi-roxo), 10px 10px 0px var(--kuromi-pink);
             }
             .kuromi-skull {
-                width: 90px;
-                height: 90px;
+                width: 80px;
+                height: 80px;
             }
             .kuromi-skull::before, .kuromi-skull::after {
-                width: 20px;
-                height: 20px;
-                top: 20px;
+                width: 15px;
+                height: 15px;
+                top: 15px;
             }
             .kuromi-skull::before { left: 10px; }
             .kuromi-skull::after { right: 10px; }
-            .kuromi-skull i { top: 40px; }
-            .kuromi-skull b { width: 40px; height: 15px; }
+            .kuromi-skull i { top: 35px; }
+            .kuromi-skull b { width: 30px; height: 10px; top: 3px;}
+        }
+        @media (max-width: 480px) {
+             .code {
+                font-size: 6em;
+            }
         }
     </style>
 </head>
