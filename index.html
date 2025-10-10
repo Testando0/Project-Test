@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Alinhado</title>
+    <title>404 | Kuromi Alinhado V2</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -26,9 +26,9 @@
         }
 
         .code-container {
-            /* FLEXBOX para alinhar perfeitamente no centro */
+            /* CHAVE DA CORREÇÃO: Alinhamento vertical centralizado */
             display: flex;
-            align-items: center;
+            align-items: center; 
             justify-content: center;
         }
 
@@ -40,23 +40,20 @@
             letter-spacing: -5px;
             text-shadow: 10px 10px 0px var(--kuromi-roxo), 
                          20px 20px 0px var(--kuromi-pink);
-            /* Garante que o número não seja esmagado pelo ícone */
             flex-shrink: 0; 
         }
 
         /* Caveira de Kuromi (Elemento central que substitui o zero) */
         .kuromi-skull {
-            /* TAMANHOS AJUSTADOS para equilibrar com os números 4 */
             width: 130px; 
             height: 130px;
-            position: relative; /* Mudado de absolute para relative */
+            position: relative; 
             z-index: 10;
-            margin: 0 10px; /* Pequeno espaço entre os elementos */
+            margin: 0 10px; 
             background-color: var(--kuromi-roxo); 
             border-radius: 50%;
             border: 5px solid var(--kuromi-pink);
-            /* Alinhamento vertical perfeito */
-            align-self: flex-start; 
+            /* REMOVIDO: align-self: flex-start; e transform: translate(0, -10%); */
         }
 
         /* Olhos da Caveira */
@@ -101,7 +98,6 @@
         @media (max-width: 900px) {
             .code {
                 font-size: 10em;
-                letter-spacing: -3px;
                 text-shadow: 5px 5px 0px var(--kuromi-roxo), 10px 10px 0px var(--kuromi-pink);
             }
             .kuromi-skull {
