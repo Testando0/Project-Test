@@ -3,102 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi - Pura Atitude</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <title>404 | Kuromi Fofa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
-        /* Cores Kuromi */
+        /* Cores Kuromi Fofa: Mais Branco, Roxo e Rosa Suaves */
         :root {
-            --kuromi-dark: #1A1A1A;     /* Preto Intenso */
-            --kuromi-purple: #5B0099;   /* Roxo Escuro */
-            --kuromi-pink: #FF69B4;     /* Rosa Choque Kuromi */
-            --kuromi-white: #FFFFFF;
+            --kuromi-fundo: #F5F5F5;      /* Branco Suave */
+            --kuromi-roxo: #9933FF;       /* Roxo Vivo */
+            --kuromi-rosa: #FF99CC;       /* Rosa Claro e Fofo */
+            --kuromi-dark-roxo: #5B0099;  /* Roxo Escuro para contraste */
         }
 
         body {
-            font-family: sans-serif;
+            font-family: 'Varela Round', sans-serif;
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: var(--kuromi-dark);
+            background-color: var(--kuromi-fundo);
+            color: var(--kuromi-dark-roxo);
             overflow: hidden;
-            position: relative;
+            text-align: center;
         }
 
-        /* Efeito de Fundo: Bandana Kuromi (Listras Diagonais) */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 150%;
-            height: 150%;
-            background: repeating-linear-gradient(
-                -45deg,
-                var(--kuromi-dark),
-                var(--kuromi-dark) 10px,
-                var(--kuromi-purple) 10px,
-                var(--kuromi-purple) 20px
-            );
-            opacity: 0.1; /* Sutil */
-            z-index: -1;
-            transform: rotate(45deg) translate(-25%, -25%);
+        .code-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
         .code {
-            font-family: 'Creepster', cursive; /* Fonte "malvada" */
-            font-size: 15em; /* Gigantesco para alto impacto */
-            color: var(--kuromi-pink);
-            text-shadow: 10px 10px 0px var(--kuromi-purple); /* Sombra roxa Kuromi */
-            line-height: 1;
-            animation: bounceIn 1.5s ease-out;
+            font-size: 15em;
+            color: var(--kuromi-roxo);
+            line-height: 0.8;
+            font-weight: bold;
+            text-shadow: 4px 4px 0px var(--kuromi-rosa);
+            position: relative;
+            z-index: 10;
         }
 
-        /* Animação para fazer o número "entrar" com atitude */
-        @keyframes bounceIn {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1); }
+        /* Coração Partido (feito com CSS puro) */
+        .broken-heart {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin: 0 40px; /* Espaço entre os números */
+            transform: rotate(-45deg) scale(0.8);
+            z-index: 5;
+            animation: pulse 2s infinite ease-in-out; /* Animação sutil de pulsação */
+        }
+
+        .broken-heart::before,
+        .broken-heart::after {
+            content: "";
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            border-radius: 50%;
+            background: var(--kuromi-rosa);
+        }
+
+        .broken-heart::before {
+            top: -60px;
+            left: 0;
+            background: var(--kuromi-rosa);
+        }
+
+        .broken-heart::after {
+            top: 0;
+            left: 60px;
+            background: var(--kuromi-rosa);
+        }
+
+        /* O "corte" para parecer partido */
+        .broken-heart-cut-top {
+            position: absolute;
+            width: 8px;
+            height: 120px;
+            background: var(--kuromi-fundo); /* Cor do fundo para simular a quebra */
+            transform: rotate(45deg);
+            top: -20px;
+            left: 55px;
+            z-index: 11;
+        }
+        .broken-heart-cut-bottom {
+            position: absolute;
+            width: 8px;
+            height: 120px;
+            background: var(--kuromi-fundo);
+            transform: rotate(-45deg);
+            top: 50px;
+            left: 55px;
+            z-index: 11;
         }
         
-        /* Detalhe Sutil: Ícone Kuromi */
-        .kuromi-icon {
-            position: absolute;
-            bottom: 50px;
-            right: 50px;
-            width: 100px;
-            height: 100px;
-            opacity: 0.2; /* Muito sutil */
-            pointer-events: none;
-            /* Nota: Em um site real, substitua o URL abaixo. */
-            background: url('https://upload.wikimedia.org/wikipedia/en/thumb/5/52/Kuromi.png/220px-Kuromi.png') no-repeat center center;
-            background-size: contain;
-            /* Filtro para dar uma cor roxa/escura ao ícone */
-            filter: grayscale(100%) brightness(50%) sepia(100%) hue-rotate(-60deg) saturate(300%); 
+        @keyframes pulse {
+            0% { transform: rotate(-45deg) scale(0.78); }
+            50% { transform: rotate(-45deg) scale(0.82); }
+            100% { transform: rotate(-45deg) scale(0.78); }
         }
+
+        /* Elemento Sutil no Canto (Orelha de Kuromi com Caveira CSS) */
+        .kuromi-ear {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--kuromi-dark-roxo);
+            border-radius: 50% 50% 0 0;
+            transform: rotate(15deg);
+            opacity: 0.7;
+        }
+        .kuromi-ear::before {
+            content: '💀'; /* Usando o caractere de caveira (texto/emoji) */
+            position: absolute;
+            top: 15px;
+            left: 10px;
+            font-size: 20px;
+            color: var(--kuromi-fundo);
+        }
+
 
         /* Responsividade */
         @media (max-width: 768px) {
             .code {
                 font-size: 10em;
             }
-            .kuromi-icon {
-                width: 70px;
-                height: 70px;
-                bottom: 20px;
-                right: 20px;
+            .broken-heart {
+                width: 80px;
+                height: 80px;
+                margin: 0 20px;
             }
-        }
-        @media (max-width: 480px) {
-            .code {
-                font-size: 6em;
+            .broken-heart::before, .broken-heart::after {
+                width: 80px;
+                height: 80px;
+            }
+            .broken-heart::before { top: -40px; }
+            .broken-heart::after { left: 40px; }
+            .broken-heart-cut-top, .broken-heart-cut-bottom {
+                width: 6px;
+                height: 80px;
             }
         }
     </style>
 </head>
 <body>
-    <p class="code">404</p>
-    <div class="kuromi-icon"></div>
+    <div class="kuromi-ear"></div>
+    
+    <div class="code-container">
+        <p class="code">4</p>
+        <div class="broken-heart">
+            <div class="broken-heart-cut-top"></div>
+            <div class="broken-heart-cut-bottom"></div>
+        </div>
+        <p class="code">4</p>
+    </div>
 </body>
 </html>
