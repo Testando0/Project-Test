@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Alinhado V2</title>
+    <title>404 | Kuromi Centralizado no Topo</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -19,14 +19,16 @@
             margin: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* CHAVE DA CORREÇÃO: Alinha o conteúdo no topo do container */
+            align-items: flex-start; 
             min-height: 100vh;
             background-color: var(--kuromi-dark); 
             overflow: hidden;
+            /* Espaço do topo para centralizar visualmente */
+            padding-top: 15vh; 
         }
 
         .code-container {
-            /* CHAVE DA CORREÇÃO: Alinhamento vertical centralizado */
             display: flex;
             align-items: center; 
             justify-content: center;
@@ -43,7 +45,7 @@
             flex-shrink: 0; 
         }
 
-        /* Caveira de Kuromi (Elemento central que substitui o zero) */
+        /* Caveira de Kuromi (Elemento central) */
         .kuromi-skull {
             width: 130px; 
             height: 130px;
@@ -53,7 +55,6 @@
             background-color: var(--kuromi-roxo); 
             border-radius: 50%;
             border: 5px solid var(--kuromi-pink);
-            /* REMOVIDO: align-self: flex-start; e transform: translate(0, -10%); */
         }
 
         /* Olhos da Caveira */
@@ -96,6 +97,9 @@
 
         /* Responsividade para manter o alinhamento em telas menores */
         @media (max-width: 900px) {
+            body {
+                padding-top: 10vh; /* Menos margem no topo em telas menores */
+            }
             .code {
                 font-size: 10em;
                 text-shadow: 5px 5px 0px var(--kuromi-roxo), 10px 10px 0px var(--kuromi-pink);
