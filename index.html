@@ -3,163 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Fofa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <title>404 | Kuromi Drama Queen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Chicle&display=swap" rel="stylesheet">
     <style>
-        /* Cores Kuromi Fofa: Mais Branco, Roxo e Rosa Suaves */
+        /* Cores de Alto Contraste */
         :root {
-            --kuromi-fundo: #F5F5F5;      /* Branco Suave */
-            --kuromi-roxo: #9933FF;       /* Roxo Vivo */
-            --kuromi-rosa: #FF99CC;       /* Rosa Claro e Fofo */
-            --kuromi-dark-roxo: #5B0099;  /* Roxo Escuro para contraste */
+            --kuromi-bg-claro: #FFFFFF;     /* Branco */
+            --kuromi-bg-escuro: #1A1A1A;    /* Preto */
+            --kuromi-roxo: #9933FF;         /* Roxo Drama */
+            --kuromi-pink-drama: #FF00FF;   /* Pink Magenta Shock */
         }
 
         body {
-            font-family: 'Varela Round', sans-serif;
+            font-family: 'Chicle', cursive;
             margin: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: var(--kuromi-fundo);
-            color: var(--kuromi-dark-roxo);
+            background-color: var(--kuromi-bg-claro);
+            color: var(--kuromi-bg-escuro);
             overflow: hidden;
-            text-align: center;
+            position: relative;
+        }
+
+        /* Fundo Quadriculado (Estilo Drama Kuromi) - Apenas CSS */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                var(--kuromi-bg-escuro),
+                var(--kuromi-bg-escuro) 20px,
+                var(--kuromi-bg-claro) 20px,
+                var(--kuromi-bg-claro) 40px
+            );
+            background-size: 80px 80px;
+            opacity: 0.1; 
+            z-index: -1;
+            transform: translate(-25%, -25%);
         }
 
         .code-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 5px solid var(--kuromi-roxo);
+            border-radius: 20px;
+            box-shadow: 0 0 40px var(--kuromi-pink-drama);
+            animation: popIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
 
         .code {
-            font-size: 15em;
-            color: var(--kuromi-roxo);
-            line-height: 0.8;
-            font-weight: bold;
-            text-shadow: 4px 4px 0px var(--kuromi-rosa);
-            position: relative;
+            font-family: 'Bungee Inline', cursive; /* Fonte gorda e estilizada */
+            font-size: 10em; 
+            color: var(--kuromi-pink-drama);
+            text-shadow: 8px 8px 0px var(--kuromi-roxo), 
+                         12px 12px 0px var(--kuromi-bg-escuro); /* Múltiplas sombras para profundidade */
+            line-height: 1;
+        }
+
+        /* Detalhe Kuromi (Orelha e Caveira CSS) */
+        .kuromi-detail {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            width: 80px;
+            height: 80px;
+            background: var(--kuromi-roxo);
+            border-radius: 50% 50% 0 50%; /* Forma da orelha */
+            transform: rotate(-30deg);
             z-index: 10;
         }
-
-        /* Coração Partido (feito com CSS puro) */
-        .broken-heart {
-            width: 120px;
-            height: 120px;
-            position: relative;
-            margin: 0 40px; /* Espaço entre os números */
-            transform: rotate(-45deg) scale(0.8);
-            z-index: 5;
-            animation: pulse 2s infinite ease-in-out; /* Animação sutil de pulsação */
-        }
-
-        .broken-heart::before,
-        .broken-heart::after {
-            content: "";
-            width: 120px;
-            height: 120px;
-            position: absolute;
-            border-radius: 50%;
-            background: var(--kuromi-rosa);
-        }
-
-        .broken-heart::before {
-            top: -60px;
-            left: 0;
-            background: var(--kuromi-rosa);
-        }
-
-        .broken-heart::after {
-            top: 0;
-            left: 60px;
-            background: var(--kuromi-rosa);
-        }
-
-        /* O "corte" para parecer partido */
-        .broken-heart-cut-top {
-            position: absolute;
-            width: 8px;
-            height: 120px;
-            background: var(--kuromi-fundo); /* Cor do fundo para simular a quebra */
-            transform: rotate(45deg);
-            top: -20px;
-            left: 55px;
-            z-index: 11;
-        }
-        .broken-heart-cut-bottom {
-            position: absolute;
-            width: 8px;
-            height: 120px;
-            background: var(--kuromi-fundo);
-            transform: rotate(-45deg);
-            top: 50px;
-            left: 55px;
-            z-index: 11;
-        }
         
-        @keyframes pulse {
-            0% { transform: rotate(-45deg) scale(0.78); }
-            50% { transform: rotate(-45deg) scale(0.82); }
-            100% { transform: rotate(-45deg) scale(0.78); }
-        }
-
-        /* Elemento Sutil no Canto (Orelha de Kuromi com Caveira CSS) */
-        .kuromi-ear {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--kuromi-dark-roxo);
-            border-radius: 50% 50% 0 0;
-            transform: rotate(15deg);
-            opacity: 0.7;
-        }
-        .kuromi-ear::before {
-            content: '💀'; /* Usando o caractere de caveira (texto/emoji) */
+        .kuromi-detail::before {
+            content: '💔'; /* Coração Partido Emoji - Fofo e Dramático */
             position: absolute;
             top: 15px;
-            left: 10px;
-            font-size: 20px;
-            color: var(--kuromi-fundo);
+            left: 20px;
+            font-size: 35px;
+            line-height: 1;
+            z-index: 11;
+            filter: drop-shadow(0 0 5px var(--kuromi-bg-escuro));
         }
-
 
         /* Responsividade */
         @media (max-width: 768px) {
             .code {
-                font-size: 10em;
+                font-size: 6em;
             }
-            .broken-heart {
-                width: 80px;
-                height: 80px;
-                margin: 0 20px;
+            .code-container {
+                padding: 20px;
             }
-            .broken-heart::before, .broken-heart::after {
-                width: 80px;
-                height: 80px;
+            .kuromi-detail {
+                width: 60px;
+                height: 60px;
+                top: 10px;
+                left: 10px;
             }
-            .broken-heart::before { top: -40px; }
-            .broken-heart::after { left: 40px; }
-            .broken-heart-cut-top, .broken-heart-cut-bottom {
-                width: 6px;
-                height: 80px;
+            .kuromi-detail::before {
+                font-size: 25px;
+                top: 10px;
+                left: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="kuromi-ear"></div>
+    <div class="kuromi-detail"></div>
     
     <div class="code-container">
-        <p class="code">4</p>
-        <div class="broken-heart">
-            <div class="broken-heart-cut-top"></div>
-            <div class="broken-heart-cut-bottom"></div>
-        </div>
-        <p class="code">4</p>
+        <p class="code">404</p>
     </div>
 </body>
 </html>
