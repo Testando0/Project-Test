@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Black Rebel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Faster+One&display=swap" rel="stylesheet">
+    <title>404 | Kuromi Gráfico</title>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     <style>
-        /* Cores Finais: Preto, Roxo, Pink */
+        /* Cores: Preto, Roxo, Pink */
         :root {
-            --kuromi-dark: #1A1A1A;     /* Fundo: Preto */
-            --kuromi-white: #FFFFFF;    /* Contraste: Branco (para sombras) */
-            --kuromi-roxo: #7A00FF;     /* Roxo Elétrico */
-            --kuromi-pink: #FF1493;     /* Pink Profundo/Hot Pink */
+            --kuromi-dark: #000000;     /* Preto Puro */
+            --kuromi-roxo: #A020F0;     /* Roxo Clássico */
+            --kuromi-pink: #FF69B4;     /* Pink Fofo/Quente */
+            --kuromi-white: #FFFFFF;
         }
 
         body {
-            font-family: 'Monoton', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
@@ -26,103 +27,80 @@
             position: relative;
         }
 
-        /* Fundo de Listras Diagonais Sombrias */
-        body::before {
-            content: '';
+        /* O 404 principal */
+        .code {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900; /* Extra Bold */
+            font-size: 20em; 
+            color: var(--kuromi-white);
+            line-height: 0.8;
+            letter-spacing: -10px;
+            position: relative;
+            mix-blend-mode: screen; /* Efeito de mistura de cores dramático */
+        }
+        
+        /* Efeito de cores Kuromi: Múltiplas camadas de cor */
+        .code::before {
+            content: "404";
             position: absolute;
             top: 0;
             left: 0;
-            width: 150%;
-            height: 150%;
-            background: repeating-linear-gradient(
-                -45deg,
-                var(--kuromi-dark),
-                var(--kuromi-dark) 25px,
-                var(--kuromi-roxo) 25px,
-                var(--kuromi-roxo) 50px
-            );
-            opacity: 0.15; 
-            z-index: -1;
-            transform: rotate(45deg) translate(-25%, -25%);
+            color: var(--kuromi-roxo);
+            transform: translate(-5px, -5px);
+            z-index: 1;
+            mix-blend-mode: overlay;
         }
-
-        .code {
-            font-family: 'Faster One', cursive; /* Fonte angular, agressiva e estilizada */
-            font-size: 16em; /* Máximo impacto */
-            color: var(--kuromi-pink);
-            line-height: 0.9;
-            /* Estilo "Adesivo/Patch" com múltiplas bordas */
-            text-shadow: -8px -8px 0px var(--kuromi-roxo), 
-                          8px 8px 0px var(--kuromi-roxo),
-                         -16px -16px 0px var(--kuromi-dark),
-                          16px 16px 0px var(--kuromi-dark);
-            animation: glitch 1.5s infinite alternate; /* Toque de erro digital */
-        }
-
-        /* Animação de Glitch/Tremor sutil */
-        @keyframes glitch {
-            0% { transform: translate(1px, 1px) skewX(0deg); }
-            50% { transform: translate(-1px, -1px) skewX(5deg); }
-            100% { transform: translate(1px, -1px) skewX(-5deg); }
-        }
-
-        /* Assinatura Kuromi: Caveira CSS (sem imagem) */
-        .kuromi-skull {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background: var(--kuromi-roxo);
-            border-radius: 50%;
-            border: 3px solid var(--kuromi-pink);
-            transform: rotate(10deg);
-            z-index: 10;
-        }
-
-        /* Olhos da Caveira (feitos com CSS) */
-        .kuromi-skull::before, .kuromi-skull::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--kuromi-dark);
-            border-radius: 50%;
-            top: 15px;
-        }
-        .kuromi-skull::before { left: 10px; }
-        .kuromi-skull::after { right: 10px; }
         
-        /* Nariz e Boca (feito com CSS) */
-        .kuromi-skull i {
+        .code::after {
+            content: "404";
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: var(--kuromi-dark);
-            border-radius: 0 0 5px 5px;
-            top: 28px;
+            top: 0;
+            left: 0;
+            color: var(--kuromi-pink);
+            transform: translate(5px, 5px);
+            z-index: 2;
+            mix-blend-mode: multiply;
+        }
+        
+        /* Detalhe Gótico Sutil (Para dar a sensação de Kuromi sem ser infantil) */
+        .gothic-detail {
+            font-family: 'UnifrakturMaguntia', cursive; /* Fonte gótica manuscrita */
+            position: absolute;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%) rotate(-15deg);
+            color: var(--kuromi-roxo);
+            font-size: 8em;
+            opacity: 0.05; /* Muito sutil, apenas textura */
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .code {
+                font-size: 15em;
+            }
+            .gothic-detail {
+                font-size: 6em;
+            }
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .code {
-                font-size: 10em;
+                font-size: 8em;
+                letter-spacing: -5px;
             }
-            .kuromi-skull {
-                width: 40px;
-                height: 40px;
-                right: 10px;
-                top: 10px;
+            .gothic-detail {
+                font-size: 4em;
             }
+            .code::before { transform: translate(-3px, -3px); }
+            .code::after { transform: translate(3px, 3px); }
         }
     </style>
 </head>
 <body>
-    <div class="kuromi-skull">
-        <i></i>
-    </div>
+    <div class="gothic-detail">Kuromi</div>
     
     <p class="code">404</p>
 </body>
