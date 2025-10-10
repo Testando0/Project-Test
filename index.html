@@ -1,139 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Ajuste Vertical Final</title>
-    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-    <style>
-        /* Cores: Preto, Roxo, Pink, Branco */
-        :root {
-            --kuromi-dark: #000000;     
-            --kuromi-roxo: #7A00FF;     
-            --kuromi-pink: #FF69B4;     
-            --kuromi-white: #FFFFFF;    
-        }
-
-        body {
-            font-family: 'Varela Round', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh;
-            background-color: var(--kuromi-dark); 
-            overflow: hidden;
-        }
-        
-        .code-container {
-            display: flex;
-            align-items: center; 
-            justify-content: center;
-            /* AJUSTE HORIZONTAL: Puxa para a esquerda */
-            margin-left: -2em;
-            /* CHAVE DA CORREÇÃO: Puxa para cima (20% da tela) */
-            margin-top: -20vh; 
-        }
-
-        .code {
-            font-weight: 800;
-            font-size: 18em;
-            color: var(--kuromi-white);
-            line-height: 0.8;
-            letter-spacing: -5px;
-            text-shadow: 10px 10px 0px var(--kuromi-roxo), 
-                         20px 20px 0px var(--kuromi-pink);
-            flex-shrink: 0; 
-        }
-
-        /* Caveira de Kuromi (Elemento central) */
-        .kuromi-skull {
-            width: 130px; 
-            height: 130px;
-            position: relative; 
-            z-index: 10;
-            margin: 0 10px; 
-            background-color: var(--kuromi-roxo); 
-            border-radius: 50%;
-            border: 5px solid var(--kuromi-pink);
-        }
-
-        /* Olhos da Caveira */
-        .kuromi-skull::before, .kuromi-skull::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: var(--kuromi-dark); 
-            border-radius: 50%;
-            top: 30px;
-        }
-        .kuromi-skull::before { left: 20px; }
-        .kuromi-skull::after { right: 20px; }
-        
-        /* Nariz e Boca */
-        .kuromi-skull i {
-            position: absolute;
-            width: 20px;
-            height: 15px;
-            background: var(--kuromi-dark);
-            clip-path: polygon(50% 100%, 0 0, 100% 0);
-            top: 65px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        /* Arco da Kuromi */
-        .kuromi-skull b {
-            content: '';
-            position: absolute;
-            width: 60px;
-            height: 20px;
-            background: var(--kuromi-pink);
-            top: 5px;
-            left: 50%;
-            transform: translateX(-50%) rotate(5deg);
-            border-radius: 10px;
-        }
-
-        /* Responsividade */
-        @media (max-width: 900px) {
-            .code-container {
-                margin-left: -1em; 
-                margin-top: -10vh; /* Ajuste vertical menor para telas menores */
-            }
-            .code {
-                font-size: 10em;
-                text-shadow: 5px 5px 0px var(--kuromi-roxo), 10px 10px 0px var(--kuromi-pink);
-            }
-            .kuromi-skull {
-                width: 80px;
-                height: 80px;
-            }
-            .kuromi-skull::before, .kuromi-skull::after {
-                width: 15px;
-                height: 15px;
-                top: 15px;
-            }
-            .kuromi-skull::before { left: 10px; }
-            .kuromi-skull::after { right: 10px; }
-            .kuromi-skull i { top: 35px; }
-            .kuromi-skull b { width: 30px; height: 10px; top: 3px;}
-        }
-        @media (max-width: 480px) {
-             .code {
-                font-size: 6em;
-            }
-        }
-    </style>
+<!DOCTYPE html><html lang="pt-br"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARIFLEX</title>
+  <link rel="stylesheet" href="css/erro.css">
+  
+  <link href="css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="code-container">
-        <p class="code">4</p>
-        <div class="kuromi-skull">
-            <i></i><b></b>
-        </div>
-        <p class="code">4</p>
-    </div>
-</body>
-</html>
+  <div class="progress-bar"></div>
+
+ 
+  <div class="container">
+    <h1 class="error-title">502</h1>
+    <p class="error-subtitle">ERRO</p>
+    <p class="error-message">Desculpe, mas houve um erro na solicitação,por favor entre em contato com os desenvolvedores.</p>
+   
+  </div>
+
+  
+  <footer>
+    <p>� 2024 CARIFLEX - Todos os direitos reservados</p>
+  </footer>
+
+
+</body></html>
