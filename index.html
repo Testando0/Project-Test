@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Centralizado Perfeito</title>
+    <title>404 | Kuromi Posição Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -19,7 +19,6 @@
             margin: 0;
             display: flex;
             justify-content: center; 
-            /* CHAVE: Centraliza o 404 verticalmente no meio da tela */
             align-items: center; 
             min-height: 100vh;
             background-color: var(--kuromi-dark); 
@@ -47,9 +46,10 @@
             align-items: center; 
             justify-content: center;
             
-            /* AJUSTE HORIZONTAL: Puxa para a esquerda (-2em) */
+            /* AJUSTE HORIZONTAL: Puxa para a esquerda */
             margin-left: -2em;
-            /* REMOVIDO: margin-top: -20vh; */
+            /* CHAVE DA CORREÇÃO: Empurra 1em para BAIXO do centro */
+            margin-top: 1em; 
             
             /* Aplica a animação */
             animation: zoomIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
@@ -120,7 +120,7 @@
         @media (max-width: 900px) {
             .code-container {
                 margin-left: -1em; 
-                /* O margin-top já foi removido aqui também */
+                margin-top: 0.5em; /* Ajuste menor para telas menores */
             }
             .code {
                 font-size: 10em;
