@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Drama Queen</title>
+    <title>404 | Kuromi Black Drama</title>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Chicle&display=swap" rel="stylesheet">
     <style>
         /* Cores de Alto Contraste */
         :root {
-            --kuromi-bg-claro: #FFFFFF;     /* Branco */
-            --kuromi-bg-escuro: #1A1A1A;    /* Preto */
+            --kuromi-bg-claro: #1A1A1A;     /* AGORA: Preto Intenso */
+            --kuromi-bg-escuro: #FFFFFF;    /* AGORA: Branco */
             --kuromi-roxo: #9933FF;         /* Roxo Drama */
             --kuromi-pink-drama: #FF00FF;   /* Pink Magenta Shock */
         }
@@ -21,13 +21,15 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: var(--kuromi-bg-claro);
-            color: var(--kuromi-bg-escuro);
+            /* Fundo preto */
+            background-color: var(--kuromi-bg-claro); 
+            /* Cor do texto para contraste */
+            color: var(--kuromi-bg-escuro); 
             overflow: hidden;
             position: relative;
         }
 
-        /* Fundo Quadriculado (Estilo Drama Kuromi) - Apenas CSS */
+        /* Fundo Quadriculado (Estilo Drama Kuromi) - Invertido para Preto/Branco */
         body::before {
             content: '';
             position: absolute;
@@ -51,6 +53,7 @@
         .code-container {
             text-align: center;
             padding: 40px;
+            /* Fundo do Container Branco para Destacar */
             background: rgba(255, 255, 255, 0.9);
             border: 5px solid var(--kuromi-roxo);
             border-radius: 20px;
@@ -64,15 +67,16 @@
         }
 
         .code {
-            font-family: 'Bungee Inline', cursive; /* Fonte gorda e estilizada */
+            font-family: 'Bungee Inline', cursive;
             font-size: 10em; 
             color: var(--kuromi-pink-drama);
+            /* Sombra agora usa as cores de fundo invertidas */
             text-shadow: 8px 8px 0px var(--kuromi-roxo), 
-                         12px 12px 0px var(--kuromi-bg-escuro); /* Múltiplas sombras para profundidade */
+                         12px 12px 0px var(--kuromi-bg-escuro); 
             line-height: 1;
         }
 
-        /* Detalhe Kuromi (Orelha e Caveira CSS) */
+        /* Detalhe Kuromi (Orelha e Coração Partido CSS) */
         .kuromi-detail {
             position: absolute;
             top: 30px;
@@ -80,20 +84,21 @@
             width: 80px;
             height: 80px;
             background: var(--kuromi-roxo);
-            border-radius: 50% 50% 0 50%; /* Forma da orelha */
+            border-radius: 50% 50% 0 50%;
             transform: rotate(-30deg);
             z-index: 10;
         }
         
         .kuromi-detail::before {
-            content: '💔'; /* Coração Partido Emoji - Fofo e Dramático */
+            content: '💔'; /* Coração Partido Emoji */
             position: absolute;
             top: 15px;
             left: 20px;
             font-size: 35px;
             line-height: 1;
             z-index: 11;
-            filter: drop-shadow(0 0 5px var(--kuromi-bg-escuro));
+            /* Sombra que contrasta com o fundo escuro */
+            filter: drop-shadow(0 0 5px var(--kuromi-bg-claro)); 
         }
 
         /* Responsividade */
