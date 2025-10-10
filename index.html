@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Centralizado no Topo</title>
+    <title>404 | Kuromi Ponto de Equilíbrio</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -18,17 +18,20 @@
             font-family: 'Varela Round', sans-serif;
             margin: 0;
             display: flex;
-            justify-content: center;
-            /* CHAVE DA CORREÇÃO: Alinha o conteúdo no topo do container */
+            /* Centraliza horizontalmente */
+            justify-content: center; 
+            /* Alinha o container no topo */
             align-items: flex-start; 
             min-height: 100vh;
             background-color: var(--kuromi-dark); 
             overflow: hidden;
-            /* Espaço do topo para centralizar visualmente */
-            padding-top: 15vh; 
         }
-
+        
+        /* CHAVE DA CORREÇÃO: Usa Margin Top para centralizar visualmente */
         .code-container {
+            /* Desloca o 404 para baixo (longe do topo) */
+            margin-top: 20vh; 
+            
             display: flex;
             align-items: center; 
             justify-content: center;
@@ -95,10 +98,10 @@
             border-radius: 10px;
         }
 
-        /* Responsividade para manter o alinhamento em telas menores */
+        /* Responsividade */
         @media (max-width: 900px) {
-            body {
-                padding-top: 10vh; /* Menos margem no topo em telas menores */
+            .code-container {
+                margin-top: 15vh;
             }
             .code {
                 font-size: 10em;
