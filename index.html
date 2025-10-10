@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Ajuste Final Duplo</title>
+    <title>404 | Kuromi Ajuste Vertical Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -29,8 +29,10 @@
             display: flex;
             align-items: center; 
             justify-content: center;
-            /* CHAVE DA CORREÇÃO: Dobramos a margem negativa para -2em */
-            margin-left: -2em; 
+            /* AJUSTE HORIZONTAL: Puxa para a esquerda */
+            margin-left: -2em;
+            /* CHAVE DA CORREÇÃO: Puxa para cima (20% da tela) */
+            margin-top: -20vh; 
         }
 
         .code {
@@ -97,7 +99,8 @@
         /* Responsividade */
         @media (max-width: 900px) {
             .code-container {
-                margin-left: -1em; /* Ajuste menor e negativo dobrado para telas menores */
+                margin-left: -1em; 
+                margin-top: -10vh; /* Ajuste vertical menor para telas menores */
             }
             .code {
                 font-size: 10em;
