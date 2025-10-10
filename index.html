@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Posicionamento Absoluto</title>
+    <title>404 | Kuromi Ajuste Vertical Final</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -24,55 +24,15 @@
             background-color: var(--kuromi-dark); 
             overflow: hidden;
         }
-
-        /* ANIMAÇÃO: Zoom In do Fundo */
-        @keyframes zoomIn {
-            0% { 
-                transform: scale(0.1) translate(-50%, -50%); 
-                opacity: 0;
-            }
-            70% { 
-                transform: scale(1.05) translate(-50%, -50%); 
-                opacity: 1;
-            }
-            100% { 
-                transform: scale(1) translate(-50%, -50%); 
-                opacity: 1;
-            }
-        }
         
         .code-container {
             display: flex;
             align-items: center; 
             justify-content: center;
-            
-            /* Posiciona no centro absoluto da tela e aplica deslocamentos */
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            
-            /* CHAVE DA CORREÇÃO: Usando TRANSFORM para centralizar e ajustar */
-            /* -2em para a esquerda e 15px para baixo */
-            transform: translate(calc(-50% - 2em), calc(-50% + 15px)); 
-            
-            /* Aplica a animação (ajustei a animação para funcionar com a nova posição) */
-            animation: none; /* Desativa a animação antiga para aplicar a nova */
-            animation: zoomIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-        }
-        /* Nova animação corrigida para o posicionamento absoluto */
-        @keyframes zoomIn {
-            0% { 
-                transform: scale(0.1) translate(calc(-50% - 2em), calc(-50% + 15px));
-                opacity: 0;
-            }
-            70% { 
-                transform: scale(1.05) translate(calc(-50% - 2em), calc(-50% + 15px));
-                opacity: 1;
-            }
-            100% { 
-                transform: scale(1) translate(calc(-50% - 2em), calc(-50% + 15px)); 
-                opacity: 1;
-            }
+            /* AJUSTE HORIZONTAL: Puxa para a esquerda */
+            margin-left: -2em;
+            /* CHAVE DA CORREÇÃO: Puxa para cima (20% da tela) */
+            margin-top: -20vh; 
         }
 
         .code {
@@ -139,8 +99,8 @@
         /* Responsividade */
         @media (max-width: 900px) {
             .code-container {
-                /* Ajustes de Transform para telas menores */
-                transform: translate(calc(-50% - 1em), calc(-50% + 10px));
+                margin-left: -1em; 
+                margin-top: -10vh; /* Ajuste vertical menor para telas menores */
             }
             .code {
                 font-size: 10em;
