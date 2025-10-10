@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 | Kuromi Centralizado</title>
+    <title>404 | Kuromi Ajuste Fino</title>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
         /* Cores: Preto, Roxo, Pink, Branco */
@@ -18,9 +18,7 @@
             font-family: 'Varela Round', sans-serif;
             margin: 0;
             display: flex;
-            /* Centraliza horizontalmente */
             justify-content: center; 
-            /* CHAVE FINAL: Centraliza verticalmente no centro absoluto */
             align-items: center; 
             min-height: 100vh;
             background-color: var(--kuromi-dark); 
@@ -31,7 +29,9 @@
             display: flex;
             align-items: center; 
             justify-content: center;
-            /* REMOVIDO: margin-top: -10vh (garantindo que fique no centro) */
+            /* CHAVE DA CORREÇÃO: Ajuste horizontal */
+            margin-left: 1em; /* Desloca o container 1em para a direita */
+            /* Se preferir pixel: margin-left: 20px; */
         }
 
         .code {
@@ -97,6 +97,9 @@
 
         /* Responsividade */
         @media (max-width: 900px) {
+            .code-container {
+                margin-left: 0.5em; /* Ajuste menor para telas menores */
+            }
             .code {
                 font-size: 10em;
                 text-shadow: 5px 5px 0px var(--kuromi-roxo), 10px 10px 0px var(--kuromi-pink);
