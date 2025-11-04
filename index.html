@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site de TV Ao Vivo</title>
+    <title>TV Express - Canais ao Vivo</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://img.icons8.com/color/48/000000/tv.png" type="image/png">
 </head>
 <body>
 
     <div class="tv-container">
-
-        <nav class="channel-list" id="channel-list">
-            </nav>
-
         <main class="video-player">
             <iframe 
                 id="player-frame" 
                 src="" 
                 frameborder="0" 
-                allow="autoplay; encrypted-media" 
+                allow="autoplay; encrypted-media; fullscreen" 
                 allowfullscreen>
             </iframe>
+            <div id="no-channel-selected" class="overlay active">
+                <p>Selecione um canal para começar a assistir</p>
+                <p>Pressione <span class="key-hint">OK</span> para abrir a lista de canais</p>
+            </div>
+            <div id="channel-info-overlay" class="channel-info-overlay">
+                <span id="current-channel-name"></span>
+            </div>
         </main>
 
+        <nav class="channel-list" id="channel-list">
+            <div class="channel-list-header">Canais</div>
+            </nav>
     </div>
 
     <script src="script.js"></script>
