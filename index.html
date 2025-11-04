@@ -3,60 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Site TV - Página Inicial</title>
+    <title>Meu Site de TV Ao Vivo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="logo">MeuSiteTV</div>
-        <nav>
-            <a href="#" class="nav-link active">Início</a>
-            <a href="#" class="nav-link">Séries</a>
-            <a href="#" class="nav-link">Filmes</a>
-            <a href="#" class="nav-link">Minha Lista</a>
-        </nav>
-        <div class="user-profile">
-            <span>Usuário</span>
-        </div>
-    </header>
+    <div class="tv-container">
 
-    <main>
-        <section class="hero-banner">
-            <div class="hero-content">
-                <h1>Título do Destaque</h1>
-                <p>Uma breve descrição do filme ou série em destaque. Algo que chame a atenção do usuário.</p>
-                <button class="btn btn-primary">▶ Assistir</button>
-                <button class="btn btn-secondary">+ Minha Lista</button>
-            </div>
-        </section>
+        <nav class="channel-list" id="channel-list">
+            </nav>
 
-        <section class="catalog">
-            
-            <h2 class="category-title">Em Alta</h2>
-            <div class="movie-row">
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/FF0000/FFFFFF?text=Filme+1');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/0000FF/FFFFFF?text=Filme+2');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/00FF00/FFFFFF?text=Filme+3');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/FFFF00/000000?text=Filme+4');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/FF00FF/FFFFFF?text=Filme+5');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/00FFFF/000000?text=Filme+6');"></div>
-            </div>
+        <main class="video-player">
+            <iframe 
+                id="player-frame" 
+                src="" 
+                frameborder="0" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+            </iframe>
+        </main>
 
-            <h2 class="category-title">Ação e Aventura</h2>
-            <div class="movie-row">
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/555555/FFFFFF?text=Ação+1');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/777777/FFFFFF?text=Ação+2');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/999999/FFFFFF?text=Ação+3');"></div>
-                <div class="movie-poster" style="background-image: url('https://via.placeholder.com/200x300/BBBBBB/000000?text=Ação+4');"></div>
-            </div>
+    </div>
 
-        </section>
-    </main>
-
-    <footer class="main-footer">
-        <p>© 2025 MeuSiteTV. Todos os direitos reservados.</p>
-    </footer>
-
+    <script src="script.js"></script>
 </body>
 </html>
