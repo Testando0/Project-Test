@@ -220,12 +220,10 @@ function checkSession() {
         userSession.classList.remove('hidden');
         showScreen('main');
         
-        // --- INICIALIZA O PLAYER DE TV (LÓGICA ORIGINAL) ---
+        // --- INICIALIZA O PLAYER DE TV (LÓGICA ATUALIZADA) ---
         populateChannelList();
         
-        // --- MODIFICAÇÃO SOLICITADA ---
-        // Em vez de mostrar o overlay, seleciona o primeiro canal (index 0).
-        // A função selectChannel() já chama o startRefreshTimer e o openFullscreen.
+        // Carrega o primeiro canal (Globo) automaticamente e em tela cheia
         selectChannel(0); 
         
     } else {
@@ -390,7 +388,9 @@ function selectChannel(index) {
     if (index < 0 || index >= channels.length) return;
 
     const selectedChannel = channels[index];
-    const iframeSrc = `${IFRAME_BASE_URL}${selectedChannel.id}`;
+    
+    // 📢 APLICAÇÃO DO AUTOPLAY: Adiciona o parâmetro ?autoplay=1 à URL
+    const iframeSrc = `${IFRAME_BASE_URL}${selectedChannel.id}?autoplay=1`;
     
     playerFrame.src = iframeSrc;
     currentChannelIndex = index;
@@ -410,16 +410,13 @@ function selectChannel(index) {
     showChannelInfo(selectedChannel.name);
     toggleChannelList(false); // Fecha o menu
     
-    // **NOVO**: Reinicia o timer de verificação de sessão
+    // Reinicia o timer de verificação de sessão
     startRefreshTimer();
 
-    // --- MODIFICAÇÃO SOLICITADA ---
     // Tenta colocar o player (o <main> pai do iframe) em tela cheia
-    // O playerFrame é o <iframe>, e o parentElement é o <main class="video-player">
     if (playerFrame && playerFrame.parentElement) {
         openFullscreen(playerFrame.parentElement);
     }
-    // --- FIM DA ADIÇÃO 2 ---
 }
 
 /**
@@ -449,11 +446,6 @@ function toggleChannelList(open) {
         }
         noChannelSelectedOverlay.classList.remove('active'); 
     } else {
-        if (currentChannelIndex === -1) {
-            // Se o menu for fechado ANTES do canal 0 carregar, 
-            // esta linha (agora removida do checkSession) poderia ser re-adicionada.
-            // noChannelSelectedOverlay.classList.add('active');
-        }
         if (focusedChannelItem && focusedChannelItem.blur) {
              focusedChannelItem.blur();
         }
