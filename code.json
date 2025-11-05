@@ -1,9 +1,9 @@
 {
   "VALID_CODES": {
+    "REDZIN": 1,
     "30DAYSK": 30,
-    "TESTE7": 7,
-    "365DAYSK": 365,
-    "VIP1": 1
+    "90DAYSK": 90,
+    "365DAYSK": 365
   },
   "MS_PER_DAY": 86400000
 }
