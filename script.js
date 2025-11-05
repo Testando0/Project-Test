@@ -1,7 +1,7 @@
+// --- CONSTANTES DO PLAYER ---
 const IFRAME_BASE_URL = 'https://embedtv-5.icu/'; // Base para o iframe do canal
 
-// --- LISTA DE CANAIS COMPLETA EXTRAÍDA DO SEU CÓDIGO HTML ---
-// Observação: Logotipos genéricos (i.imgur.com) foram adicionados para simular a exibição de ícones.
+// --- LISTA DE CANAIS COMPLETA ---
 const ALL_CHANNELS = [
     // Canais Abertos 📺
     { id: 'globo', name: 'Globo', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
@@ -74,19 +74,240 @@ const ALL_CHANNELS = [
     { id: 'bis', name: 'Canal BIS', category: 'Variedades', logo: 'https://i.imgur.com/H5j0l3X.png' },
 ];
 
-const channelListElement = document.getElementById('channel-list');
-const playerFrame = document.getElementById('player-frame');
-const noChannelSelectedOverlay = document.getElementById('no-channel-selected');
-const channelInfoOverlay = document.getElementById('channel-info-overlay');
-const currentChannelNameSpan = document.getElementById('current-channel-name');
-
+// --- VARIÁVEIS DE ESTADO DO PLAYER ---
 let channels = ALL_CHANNELS; 
 let currentChannelIndex = -1;
 let isChannelListOpen = false;
 let focusedChannelItem = null;
 let infoOverlayTimeout;
 
-// --- Funções Principais ---
+// --- VARIÁVEIS DO SISTEMA DE AUTENTICAÇÃO E RECARGA ---
+let rechargeData = { VALID_CODES: {}, MS_PER_DAY: 0 };
+let refreshInterval;
+const REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 10 minutos para revalidar a sessão
+
+// --- ELEMENTOS DO DOM (PLAYER) ---
+const channelListElement = document.getElementById('channel-list');
+const playerFrame = document.getElementById('player-frame');
+const noChannelSelectedOverlay = document.getElementById('no-channel-selected');
+const channelInfoOverlay = document.getElementById('channel-info-overlay');
+const currentChannelNameSpan = document.getElementById('current-channel-name');
+
+// --- (NOVAS) FUNÇÕES DE AUTENTICAÇÃO E RECARGA ---
+
+/**
+ * Carrega os códigos de recarga a partir do code.json.
+ * Esta função agora é assíncrona.
+ */
+async function loadRechargeCodes() {
+    try {
+        const response = await fetch('code.json'); // Carrega o arquivo
+        if (!response.ok) {
+            console.warn('code.json não encontrado. Usando dados de recarga vazios.');
+            // 86400000 ms = 1 dia
+            return { VALID_CODES: {}, MS_PER_DAY: 86400000 }; 
+        }
+        const data = await response.json();
+        console.log("Códigos de recarga carregados com sucesso do code.json.");
+        return { 
+            VALID_CODES: data.VALID_CODES || {},
+            MS_PER_DAY: data.MS_PER_DAY || 86400000 
+        };
+    } catch (error) {
+        console.error('Falha ao carregar ou processar code.json:', error);
+        // Tenta exibir a mensagem na tela de recarga, se já existir
+        const rechargeMessage = document.getElementById('recharge-message');
+        if (rechargeMessage) {
+            rechargeMessage.textContent = 'Erro ao carregar dados de recarga.';
+            rechargeMessage.style.color = 'var(--accent-color)';
+        }
+        return { VALID_CODES: {}, MS_PER_DAY: 86400000 };
+    }
+}
+
+/**
+ * Exibe a tela correta (auth, recharge, ou main).
+ */
+function showScreen(screenName) {
+    // Seleciona os contêineres globais (definidos em DOMContentLoaded)
+    const mainContent = document.getElementById('main-content');
+    const authContainer = document.getElementById('auth-container');
+    const rechargeContainer = document.getElementById('recharge-container');
+    const accountMenu = document.getElementById('account-menu');
+    const redeemCodeModal = document.getElementById('redeem-code-modal');
+    const modalOverlay = document.getElementById('modal-overlay');
+
+    // Esconde todos
+    mainContent.classList.add('hidden');
+    authContainer.classList.add('hidden');
+    rechargeContainer.classList.add('hidden');
+    
+    // Esconde itens de menu/modal
+    if (accountMenu) accountMenu.classList.add('hidden'); 
+    if (redeemCodeModal) redeemCodeModal.classList.add('hidden'); 
+    if (modalOverlay) modalOverlay.classList.add('hidden'); 
+
+    // Mostra o específico
+    if (screenName === 'auth') authContainer.classList.remove('hidden');
+    else if (screenName === 'recharge') rechargeContainer.classList.remove('hidden');
+    else if (screenName === 'main') mainContent.classList.remove('hidden');
+}
+
+/**
+ * Faz logout da sessão do usuário.
+ */
+function logoutSession() {
+    localStorage.removeItem('tv_express_currentUser'); // Chave de app atualizada
+    if(refreshInterval) clearInterval(refreshInterval);
+    
+    const loginForm = document.getElementById('login-form');
+    const loginMessage = document.getElementById('login-message');
+    if (loginForm) loginForm.reset();
+    if (loginMessage) loginMessage.textContent = '';
+    
+    showScreen('auth');
+}
+
+/**
+ * Deleta a conta do usuário atual.
+ */
+function deleteAccount() {
+    const currentUser = localStorage.getItem('tv_express_currentUser');
+    if (confirm(`Tem certeza que deseja DELETAR a conta "${currentUser}"? Esta ação é irreversível.`)) {
+        const users = JSON.parse(localStorage.getItem('tv_express_users')) || {};
+        delete users[currentUser];
+        localStorage.setItem('tv_express_users', JSON.stringify(users));
+        alert("Conta deletada com sucesso.");
+        logoutSession();
+    }
+}
+
+/**
+ * Verifica a sessão do usuário e decide qual tela mostrar.
+ */
+function checkSession() {
+    const currentUser = localStorage.getItem('tv_express_currentUser');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const userSession = document.getElementById('user-session');
+
+    if (!currentUser) {
+        showScreen('auth');
+        return;
+    }
+    
+    const users = JSON.parse(localStorage.getItem('tv_express_users')) || {};
+    const userData = users[currentUser];
+
+    if (userData && userData.accessExpires && userData.accessExpires > Date.now()) {
+        // --- SESSÃO VÁLIDA ---
+        welcomeMessage.textContent = `Olá, ${currentUser}!`;
+        userSession.classList.remove('hidden');
+        showScreen('main');
+        
+        // --- INICIALIZA O PLAYER DE TV (LÓGICA ORIGINAL) ---
+        populateChannelList();
+        noChannelSelectedOverlay.classList.add('active'); 
+        startRefreshTimer(); // Inicia o timer de verificação de expiração
+    } else {
+        // --- SESSÃO EXPIRADA ---
+        showScreen('recharge');
+    }
+}
+
+/**
+ * Processa um código de recarga.
+ */
+function processRechargeCode(code, currentUser, messageElement, isRechargeScreen = false) {
+    const users = JSON.parse(localStorage.getItem('tv_express_users'));
+    if (!users || !users[currentUser]) {
+        messageElement.textContent = 'Erro: Usuário não encontrado.';
+        messageElement.style.color = 'var(--accent-color)';
+        return;
+    }
+    const userData = users[currentUser];
+
+    const validCodes = rechargeData.VALID_CODES;
+    const MS_PER_DAY = rechargeData.MS_PER_DAY; 
+
+    if (!validCodes[code]) {
+        messageElement.textContent = 'Código de recarga inválido!';
+        messageElement.style.color = 'var(--accent-color)';
+        return; 
+    }
+    if (userData.usedCodes && userData.usedCodes.includes(code)) {
+        messageElement.textContent = 'Este código já foi utilizado por você!';
+        messageElement.style.color = 'var(--accent-color)';
+        return; 
+    }
+
+    const durationInDays = validCodes[code]; 
+    const durationInMs = durationInDays * MS_PER_DAY; 
+    
+    const startTime = (userData.accessExpires && userData.accessExpires > Date.now()) 
+                    ? userData.accessExpires 
+                    : Date.now();
+    
+    userData.accessExpires = startTime + durationInMs;
+    
+    if (!userData.usedCodes) { 
+        userData.usedCodes = [];
+    }
+    userData.usedCodes.push(code);
+
+    localStorage.setItem('tv_express_users', JSON.stringify(users));
+
+    messageElement.textContent = `Código ativado! Adicionado ${durationInDays} dia(s) de acesso.`;
+    messageElement.style.color = 'lightgreen';
+    
+    if (isRechargeScreen) {
+        setTimeout(() => checkSession(), 1500);
+    } else {
+        const redeemCodeModal = document.getElementById('redeem-code-modal');
+        const modalOverlay = document.getElementById('modal-overlay');
+        const redeemForm = document.getElementById('redeem-form');
+        
+        setTimeout(() => {
+            redeemCodeModal.classList.add('hidden');
+            modalOverlay.classList.add('hidden');
+            redeemForm.reset();
+            messageElement.textContent = '';
+        }, 2000);
+    }
+}
+
+/**
+ * Reinicia o timer que verifica a sessão.
+ */
+function startRefreshTimer() {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+    refreshInterval = setInterval(refreshPlayer, REFRESH_INTERVAL_MS);
+}
+
+/**
+ * É chamado pelo timer para verificar se a sessão ainda é válida.
+ */
+function refreshPlayer() {
+    console.log(`Atualizando verificação de sessão (${new Date().toLocaleTimeString()}).`);
+    
+    const currentUser = localStorage.getItem('tv_express_currentUser');
+    const users = JSON.parse(localStorage.getItem('tv_express_users')) || {};
+    const userData = users[currentUser];
+    
+    if (userData && userData.accessExpires && userData.accessExpires > Date.now()) {
+        // Sessão OK. Apenas recarrega o iframe para manter a conexão (opcional, mas bom)
+        playerFrame.src = playerFrame.src; 
+    } else {
+        // Sessão expirou
+        clearInterval(refreshInterval);
+        alert("Sua sessão expirou. Por favor, recarregue seu acesso.");
+        checkSession(); // Redireciona para a tela de recarga
+    }
+}
+
+
+// --- (ANTIGAS) FUNÇÕES DO PLAYER ---
 
 /**
  * Preenche a lista de canais no menu lateral, agrupando por categoria.
@@ -94,7 +315,6 @@ let infoOverlayTimeout;
 function populateChannelList() {
     channelListElement.innerHTML = '<div class="channel-list-header">Canais</div>'; 
     
-    // Agrupa os canais por categoria para exibição no menu
     const channelsByCategory = channels.reduce((acc, channel) => {
         const category = channel.category || 'Outros';
         if (!acc[category]) {
@@ -104,7 +324,6 @@ function populateChannelList() {
         return acc;
     }, {});
     
-    // Renderiza a lista com cabeçalhos de categoria
     Object.keys(channelsByCategory).forEach(category => {
         const categoryHeader = document.createElement('div');
         categoryHeader.classList.add('channel-category-header');
@@ -112,7 +331,6 @@ function populateChannelList() {
         channelListElement.appendChild(categoryHeader);
 
         channelsByCategory[category].forEach((channel, indexOffset) => {
-             // Encontra o índice na lista plana para navegação UP/DOWN
              const index = channels.findIndex(c => c.id === channel.id);
              
              const channelItem = document.createElement('a');
@@ -122,7 +340,7 @@ function populateChannelList() {
              channelItem.setAttribute('tabindex', '0'); 
 
              const channelLogo = document.createElement('img');
-             channelLogo.src = channel.logo || 'https://via.placeholder.com/40x40.png?text=TV'; // Fallback para logo
+             channelLogo.src = channel.logo || 'https://via.placeholder.com/40x40.png?text=TV'; 
              channelLogo.alt = `${channel.name} Logo`;
              channelItem.appendChild(channelLogo);
 
@@ -152,23 +370,18 @@ function selectChannel(index) {
     if (index < 0 || index >= channels.length) return;
 
     const selectedChannel = channels[index];
-    
-    // Monta a URL do iframe com o ID do canal
     const iframeSrc = `${IFRAME_BASE_URL}${selectedChannel.id}`;
     
     playerFrame.src = iframeSrc;
     currentChannelIndex = index;
 
-    // Remove a classe 'active' do canal anterior
     const currentActive = document.querySelector('.channel-item.active');
     if (currentActive) {
         currentActive.classList.remove('active');
     }
-    // Adiciona a classe 'active' ao novo canal
     const newActive = channelListElement.querySelector(`[data-index="${index}"]`);
     if (newActive) {
         newActive.classList.add('active');
-        // Rola a lista para garantir que o item ativo esteja visível
         newActive.scrollIntoView({ behavior: 'smooth', block: 'center' });
         focusedChannelItem = newActive;
     }
@@ -176,11 +389,13 @@ function selectChannel(index) {
     noChannelSelectedOverlay.classList.remove('active');
     showChannelInfo(selectedChannel.name);
     toggleChannelList(false); // Fecha o menu
+    
+    // **NOVO**: Reinicia o timer de verificação de sessão
+    startRefreshTimer();
 }
 
 /**
  * Exibe o nome do canal atual por alguns segundos.
- * @param {string} name - Nome do canal a ser exibido.
  */
 function showChannelInfo(name) {
     clearTimeout(infoOverlayTimeout);
@@ -193,14 +408,12 @@ function showChannelInfo(name) {
 
 /**
  * Abre ou fecha o menu lateral de canais.
- * @param {boolean} [open] - Define explicitamente se deve abrir (true) ou fechar (false). Se omitido, inverte o estado atual.
  */
 function toggleChannelList(open) {
     isChannelListOpen = open === undefined ? !isChannelListOpen : open;
     channelListElement.classList.toggle('active', isChannelListOpen);
 
     if (isChannelListOpen) {
-        // Tenta manter o foco no canal ativo ou no primeiro canal
         if (focusedChannelItem) {
             focusedChannelItem.focus();
         } else if (channels.length > 0) {
@@ -208,93 +421,223 @@ function toggleChannelList(open) {
         }
         noChannelSelectedOverlay.classList.remove('active'); 
     } else {
-         // Se a lista fechou e nenhum canal foi selecionado, mostra o overlay inicial
         if (currentChannelIndex === -1) {
             noChannelSelectedOverlay.classList.add('active');
         }
-        // Tira o foco dos itens do menu para evitar navegação acidental
         if (focusedChannelItem && focusedChannelItem.blur) {
              focusedChannelItem.blur();
         }
     }
 }
 
-// --- Navegação por Controle Remoto (ou Teclado) ---
-document.addEventListener('keydown', (e) => {
-    let handled = false;
 
-    if (isChannelListOpen) {
-        // Lógica de navegação quando o menu está aberto
-        const focusableChannels = Array.from(channelListElement.querySelectorAll('.channel-item'));
-        let currentFocusIndex = focusableChannels.indexOf(focusedChannelItem);
+// --- Inicialização (DOM Content Loaded) ---
+document.addEventListener('DOMContentLoaded', async () => { // <--- ASYNC
+    
+    // --- (NOVOS) ELEMENTOS DO DOM (AUTH) ---
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const rechargeForm = document.getElementById('recharge-form');
+    const redeemForm = document.getElementById('redeem-form'); 
+    
+    const showRegisterLink = document.getElementById('show-register');
+    const showLoginLink = document.getElementById('show-login');
+    
+    const rechargeLogoutButton = document.getElementById('recharge-logout-button'); 
+    const settingsIcon = document.getElementById('settings-icon');
+    const accountMenu = document.getElementById('account-menu');
+    const menuLogoutButton = document.getElementById('menu-logout');
+    const menuDeleteButton = document.getElementById('menu-delete-account');
+    const menuRedeemCodeButton = document.getElementById('menu-redeem-code'); 
+    const closeRedeemModalButton = document.getElementById('close-redeem-modal'); 
+    
+    const redeemCodeModal = document.getElementById('redeem-code-modal'); 
+    const modalOverlay = document.getElementById('modal-overlay'); 
 
-        switch (e.key) {
-            case 'ArrowDown': // Seta para baixo
-                if (currentFocusIndex < focusableChannels.length - 1) {
-                    currentFocusIndex++;
-                    focusableChannels[currentFocusIndex].focus();
-                    handled = true;
-                }
-                break;
-            case 'ArrowUp': // Seta para cima
-                if (currentFocusIndex > 0) {
-                    currentFocusIndex--;
-                    focusableChannels[currentFocusIndex].focus();
-                    handled = true;
-                }
-                break;
-            case 'Enter': // Botão OK/Enter (Seleciona o canal focado)
-            case ' ': // Espaço
-                if (focusedChannelItem) {
-                    const index = parseInt(focusedChannelItem.getAttribute('data-index'));
-                    selectChannel(index);
-                    handled = true;
-                }
-                break;
-            case 'Backspace': // Botão Voltar
-            case 'Escape': // Esc
-            case 'ArrowLeft': // Seta para esquerda (Fecha o menu)
-                toggleChannelList(false);
-                handled = true;
-                break;
+    const loginMessage = document.getElementById('login-message');
+    const registerMessage = document.getElementById('register-message');
+    const rechargeMessage = document.getElementById('recharge-message');
+    const redeemMessage = document.getElementById('redeem-message'); 
+
+    // --- (NOVO) CARREGAMENTO DOS CÓDIGOS ---
+    rechargeData = await loadRechargeCodes(); // <--- AWAIT
+
+    // --- (NOVOS) EVENT LISTENERS DE AUTENTICAÇÃO E RECARGA ---
+
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('register-username').value;
+        const password = document.getElementById('register-password').value;
+        const users = JSON.parse(localStorage.getItem('tv_express_users')) || {};
+
+        if (users[username]) {
+            registerMessage.textContent = 'Este usuário já existe!';
+            registerMessage.style.color = 'var(--accent-color)';
+        } else {
+            users[username] = { 
+                password: password, 
+                accessExpires: null, // Começa sem acesso
+                usedCodes: [] 
+            };
+            localStorage.setItem('tv_express_users', JSON.stringify(users));
+            
+            registerMessage.textContent = 'Conta criada! Faça o login.';
+            registerMessage.style.color = 'lightgreen';
+            setTimeout(() => showLoginLink.click(), 2000);
         }
-    } else { 
-        // Lógica de navegação quando o player está em tela cheia (menu fechado)
-        switch (e.key) {
-            case 'Enter': // Botão OK/Enter (Abre o menu)
-            case ' ': // Espaço
-            case 'ArrowRight': // Seta para direita (Abre o menu)
-                toggleChannelList(true); 
-                handled = true;
-                break;
-            case 'ArrowUp': // Canal anterior
-            case 'ArrowDown': // Próximo canal
-                if (channels.length > 0) {
-                    let newIndex = currentChannelIndex;
-                    if (currentChannelIndex === -1) {
-                         newIndex = 0; // Se nenhum estiver ativo, começa pelo primeiro
-                    } else if (e.key === 'ArrowUp') {
-                        newIndex = (currentChannelIndex - 1 + channels.length) % channels.length; // Ciclo para cima
-                    } else if (e.key === 'ArrowDown') {
-                        newIndex = (currentChannelIndex + 1) % channels.length; // Ciclo para baixo
-                    }
-                    if (newIndex !== currentChannelIndex) {
-                        selectChannel(newIndex);
-                    }
-                }
-                handled = true;
-                break;
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const username = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+        const users = JSON.parse(localStorage.getItem('tv_express_users')) || {};
+        const userData = users[username];
+
+        if (userData && userData.password === password) {
+            localStorage.setItem('tv_express_currentUser', username);
+            checkSession(); // <--- Ponto de entrada para o app
+        } else {
+            loginMessage.textContent = 'Usuário ou senha incorretos!';
+            loginMessage.style.color = 'var(--accent-color)';
         }
-    }
+    });
 
-    if (handled) {
-        e.preventDefault(); 
-    }
-});
+    rechargeLogoutButton.addEventListener('click', logoutSession);
+    menuLogoutButton.addEventListener('click', logoutSession);
+    
+    settingsIcon.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        accountMenu.classList.toggle('hidden');
+    });
 
-// --- Inicialização ---
-document.addEventListener('DOMContentLoaded', () => {
-    populateChannelList(); // Carrega os canais no DOM
-    // Garante que o overlay inicial esteja ativo até que um canal seja selecionado
-    noChannelSelectedOverlay.classList.add('active'); 
+    menuDeleteButton.addEventListener('click', deleteAccount);
+    
+    menuRedeemCodeButton.addEventListener('click', () => {
+        accountMenu.classList.add('hidden'); 
+        redeemCodeModal.classList.remove('hidden');
+        modalOverlay.classList.remove('hidden');
+        redeemForm.reset();
+        redeemMessage.textContent = '';
+    });
+
+    closeRedeemModalButton.addEventListener('click', () => {
+        redeemCodeModal.classList.add('hidden');
+        modalOverlay.classList.add('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!accountMenu.classList.contains('hidden') && !e.target.closest('#user-session')) {
+            accountMenu.classList.add('hidden');
+        }
+        if (!redeemCodeModal.classList.contains('hidden') && e.target.id === 'modal-overlay') {
+            redeemCodeModal.classList.add('hidden');
+            modalOverlay.classList.add('hidden');
+        }
+    });
+
+    rechargeForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const code = document.getElementById('recharge-code').value.toUpperCase();
+        const currentUser = localStorage.getItem('tv_express_currentUser');
+        processRechargeCode(code, currentUser, rechargeMessage, true);
+    });
+    
+    redeemForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Usa o input do modal, que tem ID diferente
+        const code = document.getElementById('redeem-code-modal-input').value.toUpperCase(); 
+        const currentUser = localStorage.getItem('tv_express_currentUser');
+        processRechargeCode(code, currentUser, redeemMessage, false);
+    });
+
+    showRegisterLink.addEventListener('click', () => {
+        document.getElementById('login-form-container').classList.add('hidden');
+        document.getElementById('register-form-container').classList.remove('hidden');
+        loginMessage.textContent = '';
+    });
+    showLoginLink.addEventListener('click', () => {
+        document.getElementById('register-form-container').classList.add('hidden');
+        document.getElementById('login-form-container').classList.remove('hidden');
+        registerMessage.textContent = '';
+    });
+
+
+    // --- (ANTIGO) EVENT LISTENER DE NAVEGAÇÃO ---
+    // (Agora é registrado junto com os outros)
+    document.addEventListener('keydown', (e) => {
+        let handled = false;
+
+        if (isChannelListOpen) {
+            // Lógica de navegação quando o menu está aberto
+            const focusableChannels = Array.from(channelListElement.querySelectorAll('.channel-item'));
+            let currentFocusIndex = focusableChannels.indexOf(focusedChannelItem);
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    if (currentFocusIndex < focusableChannels.length - 1) {
+                        currentFocusIndex++;
+                        focusableChannels[currentFocusIndex].focus();
+                        handled = true;
+                    }
+                    break;
+                case 'ArrowUp':
+                    if (currentFocusIndex > 0) {
+                        currentFocusIndex--;
+                        focusableChannels[currentFocusIndex].focus();
+                        handled = true;
+                    }
+                    break;
+                case 'Enter':
+                case ' ':
+                    if (focusedChannelItem) {
+                        const index = parseInt(focusedChannelItem.getAttribute('data-index'));
+                        selectChannel(index);
+                        handled = true;
+                    }
+                    break;
+                case 'Backspace':
+                case 'Escape':
+                case 'ArrowLeft':
+                    toggleChannelList(false);
+                    handled = true;
+                    break;
+            }
+        } else { 
+            // Lógica de navegação quando o player está em tela cheia
+            switch (e.key) {
+                case 'Enter':
+                case ' ':
+                case 'ArrowRight':
+                    toggleChannelList(true); 
+                    handled = true;
+                    break;
+                case 'ArrowUp':
+                case 'ArrowDown':
+                    if (channels.length > 0) {
+                        let newIndex = currentChannelIndex;
+                        if (currentChannelIndex === -1) {
+                             newIndex = 0;
+                        } else if (e.key === 'ArrowUp') {
+                            newIndex = (currentChannelIndex - 1 + channels.length) % channels.length;
+                        } else if (e.key === 'ArrowDown') {
+                            newIndex = (currentChannelIndex + 1) % channels.length;
+                        }
+                        if (newIndex !== currentChannelIndex) {
+                            selectChannel(newIndex);
+                        }
+                    }
+                    handled = true;
+                    break;
+            }
+        }
+
+        if (handled) {
+            e.preventDefault(); 
+        }
+    });
+
+    // --- (NOVO) PONTO DE INICIALIZAÇÃO ---
+    // Esta função só será chamada DEPOIS que o await loadRechargeCodes() terminar
+    checkSession();
 });
