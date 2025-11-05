@@ -10,30 +10,104 @@
 </head>
 <body>
 
-    <div class="tv-container">
+    <div id="auth-container" class="hidden">
+        <div id="login-form-container" class="form-container">
+            <form id="login-form">
+                <h2>Login</h2>
+                <div class="form-group"><label for="login-username">Usuário</label><input type="text" id="login-username" required></div>
+                <div class="form-group"><label for="login-password">Senha</label><input type="password" id="login-password" required></div>
+                <button type="submit">Entrar</button>
+                <p id="login-message" class="message"></p>
+            </form>
+            <p class="toggle-form">Não tem uma conta? <a id="show-register">Registre-se</a></p>
+        </div>
         
-        <main class="video-player">
-            <iframe 
-                id="player-frame" 
-                src="" 
-                frameborder="0" 
-                allow="autoplay; encrypted-media; fullscreen" 
-                allowfullscreen>
-            </iframe>
-            
-            <div id="no-channel-selected" class="overlay active">
-                <p>Selecione um canal para começar a assistir</p>
-                <p>Pressione <span class="key-hint">OK</span> para abrir a lista de canais</p>
-            </div>
-            
-            <div id="channel-info-overlay" class="channel-info-overlay">
-                <span id="current-channel-name"></span>
-            </div>
-        </main>
-
-        <nav class="channel-list" id="channel-list">
-            </nav>
+        <div id="register-form-container" class="form-container hidden">
+            <form id="register-form">
+                <h2>Registro</h2>
+                <div class="form-group"><label for="register-username">Usuário</label><input type="text" id="register-username" required></div>
+                <div class="form-group"><label for="register-password">Senha</label><input type="password" id="register-password" required></div>
+                <button type="submit">Criar Conta</button>
+                <p id="register-message" class="message"></p>
+            </form>
+            <p class="toggle-form">Já tem uma conta? <a id="show-login">Faça Login</a></p>
+        </div>
     </div>
+
+    <div id="recharge-container" class="hidden">
+        <div class="form-container">
+             <h2>Acesso Expirado</h2>
+             <p>Sua assinatura terminou ou nunca foi ativada. Insira um código de recarga para continuar.</p>
+             <form id="recharge-form">
+                  <div class="form-group">
+                       <label for="recharge-code">Código de Recarga</label>
+                       <input type="text" id="recharge-code" required>
+                  </div>
+                  <button type="submit">Ativar</button>
+                  <p id="recharge-message" class="message"></p>
+             </form>
+             <button id="recharge-logout-button" class="logout-button" style="width: 100%; margin-top: 15px;">Sair</button>
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden">
+
+        <header class="main-header">
+            <h1 class="main-title">TV Express</h1>
+            <div id="user-session" class="hidden">
+                 <span id="welcome-message"></span>
+                 <span id="settings-icon">⚙️</span>
+                 <div id="account-menu" class="hidden">
+                     <button id="menu-redeem-code">Resgatar Código</button>
+                     <button id="menu-logout">Sair</button>
+                     <button id="menu-delete-account" style="color: var(--accent-color);">Deletar Conta</button>
+                 </div>
+            </div>
+        </header>
+
+        <div class="tv-container">
+            <main class="video-player">
+                <iframe 
+                    id="player-frame" 
+                    src="" 
+                    frameborder="0" 
+                    allow="autoplay; encrypted-media; fullscreen" 
+                    allowfullscreen>
+                </iframe>
+                
+                <div id="no-channel-selected" class="overlay">
+                    <p>Selecione um canal para começar a assistir</p>
+                    <p>Pressione <span class="key-hint">OK</span> para abrir a lista de canais</p>
+                </div>
+                
+                <div id="channel-info-overlay" class="channel-info-overlay">
+                    <span id="current-channel-name"></span>
+                </div>
+            </main>
+
+            <nav class="channel-list" id="channel-list">
+                </nav>
+        </div>
+
+    </div>
+
+    <div id="redeem-code-modal" class="hidden">
+        <div class="form-container">
+             <h2>Resgatar Código</h2>
+             <p style="text-align: center; font-size: 0.9em; color: var(--secondary-text-color);">Adicione mais dias à sua assinatura.</p>
+             <form id="redeem-form">
+                  <div class="form-group">
+                       <label for="redeem-code-modal-input">Código de Recarga</label>
+                       <input type="text" id="redeem-code-modal-input" required>
+                  </div>
+                  <button type="submit">Resgatar</button>
+                  <p id="redeem-message" class="message"></p>
+             </form>
+             <button id="close-redeem-modal" class="modal-close-button">Fechar</button>
+        </div>
+    </div>
+    <div id="modal-overlay" class="hidden"></div>
+
 
     <script src="script.js"></script>
 </body>
