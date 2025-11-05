@@ -4,11 +4,14 @@ const IFRAME_BASE_URL = 'https://embedtv-5.icu/'; // Base para o iframe do canal
 // --- LISTA DE CANAIS COMPLETA ---
 const ALL_CHANNELS = [
     // Canais Abertos 📺
-    { id: 'globors', name: 'Globo', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
+    { id: 'globors', name: 'Globo RS', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
+    { id: 'globorj', name: 'Globo RJ', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
+    { id: 'globosp', name: 'Globo SP', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
+    { id: 'globomg', name: 'Globo MG', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
+    { id: 'globoam', name: 'Globo AM', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
     { id: 'sbt', name: 'SBT', category: 'Canais Abertos', logo: 'https://i.imgur.com/T09KjFj.png' },
     { id: 'record', name: 'Record TV', category: 'Canais Abertos', logo: 'https://i.imgur.com/8Q0b12C.png' },
     { id: 'band', name: 'Band', category: 'Canais Abertos', logo: 'https://i.imgur.com/Qv3lM0v.png' },
-    { id: 'redetv', name: 'RedeTV!', category: 'Canais Abertos', logo: 'https://i.imgur.com/B7X8u0R.png' },
     { id: 'cultura', name: 'TV Cultura', category: 'Canais Abertos', logo: 'https://i.imgur.com/2Xy5v4a.png' },
     
     // Filmes e Séries 🎬
