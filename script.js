@@ -74,6 +74,22 @@ const ALL_CHANNELS = [
     { id: 'bis', name: 'Canal BIS', category: 'Variedades', logo: 'https://i.imgur.com/H5j0l3X.png' },
 ];
 
+// --- (NOVA) FUNÇÃO HELPER DE TELA CHEIA ---
+/**
+ * Tenta abrir um elemento em tela cheia.
+ * @param {HTMLElement} elem - O elemento a ser aberto em tela cheia.
+ */
+function openFullscreen(elem) {
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(err => console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`));
+    } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen().catch(err => console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`));
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+// --- FIM DA ADIÇÃO 1 ---
+
 // --- VARIÁVEIS DE ESTADO DO PLAYER ---
 let channels = ALL_CHANNELS; 
 let currentChannelIndex = -1;
@@ -392,6 +408,14 @@ function selectChannel(index) {
     
     // **NOVO**: Reinicia o timer de verificação de sessão
     startRefreshTimer();
+
+    // --- MODIFICAÇÃO SOLICITADA ---
+    // Tenta colocar o player (o <main> pai do iframe) em tela cheia
+    // O playerFrame é o <iframe>, e o parentElement é o <main class="video-player">
+    if (playerFrame && playerFrame.parentElement) {
+        openFullscreen(playerFrame.parentElement);
+    }
+    // --- FIM DA ADIÇÃO 2 ---
 }
 
 /**
