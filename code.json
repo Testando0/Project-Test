@@ -1,8 +1,8 @@
 {
   "VALID_CODES": {
-    "TESTE30": 30,
+    "30DAYSK": 30,
     "TESTE7": 7,
-    "ADMIN01": 365,
+    "365DAYSK": 365,
     "VIP1": 1
   },
   "MS_PER_DAY": 86400000
