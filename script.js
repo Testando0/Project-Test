@@ -1,4 +1,4 @@
-const IFRAME_BASE_URL = 'https://embedtv-5.icu/'; // Base para o iframe do canal
+const IFRAME_BASE_URL = 'https://embedcanais.com/'; // Base para o iframe do canal
 
 // --- LISTA DE CANAIS COMPLETA EXTRAÍDA DO SEU CÓDIGO HTML ---
 // Observação: Logotipos genéricos (i.imgur.com) foram adicionados para simular a exibição de ícones.
@@ -6,7 +6,7 @@ const ALL_CHANNELS = [
     // Canais Abertos 📺
     { id: 'globo', name: 'Globo', category: 'Canais Abertos', logo: 'https://i.imgur.com/K3t5o5r.png' },
     { id: 'sbt', name: 'SBT', category: 'Canais Abertos', logo: 'https://i.imgur.com/T09KjFj.png' },
-    { id: 'record', name: 'Record TV', category: 'Canais Abertos', logo: 'https://i.imgur.com/8Q0b12C.png' },
+    { id: 'recordsp', name: 'Record TV', category: 'Canais Abertos', logo: 'https://i.imgur.com/8Q0b12C.png' },
     { id: 'band', name: 'Band', category: 'Canais Abertos', logo: 'https://i.imgur.com/Qv3lM0v.png' },
     { id: 'redetv', name: 'RedeTV!', category: 'Canais Abertos', logo: 'https://i.imgur.com/B7X8u0R.png' },
     { id: 'cultura', name: 'TV Cultura', category: 'Canais Abertos', logo: 'https://i.imgur.com/2Xy5v4a.png' },
