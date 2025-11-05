@@ -222,8 +222,12 @@ function checkSession() {
         
         // --- INICIALIZA O PLAYER DE TV (LÓGICA ORIGINAL) ---
         populateChannelList();
-        noChannelSelectedOverlay.classList.add('active'); 
-        startRefreshTimer(); // Inicia o timer de verificação de expiração
+        
+        // --- MODIFICAÇÃO SOLICITADA ---
+        // Em vez de mostrar o overlay, seleciona o primeiro canal (index 0).
+        // A função selectChannel() já chama o startRefreshTimer e o openFullscreen.
+        selectChannel(0); 
+        
     } else {
         // --- SESSÃO EXPIRADA ---
         showScreen('recharge');
@@ -446,7 +450,9 @@ function toggleChannelList(open) {
         noChannelSelectedOverlay.classList.remove('active'); 
     } else {
         if (currentChannelIndex === -1) {
-            noChannelSelectedOverlay.classList.add('active');
+            // Se o menu for fechado ANTES do canal 0 carregar, 
+            // esta linha (agora removida do checkSession) poderia ser re-adicionada.
+            // noChannelSelectedOverlay.classList.add('active');
         }
         if (focusedChannelItem && focusedChannelItem.blur) {
              focusedChannelItem.blur();
