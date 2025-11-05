@@ -5,9 +5,21 @@
     padding: 0;
 }
 
+/* Estas são as variáveis de cor adaptadas do seu tema.
+  Elas serão usadas para estilizar os novos formulários de login.
+*/
+:root {
+    --background-color: #141414;     /* Cor de fundo principal */
+    --surface-color: #222222;       /* Cor de fundo dos formulários */
+    --primary-text-color: #ffffff;  /* Texto principal */
+    --secondary-text-color: #aaaaaa; /* Texto secundário */
+    --accent-color: #E50914;         /* Cor de destaque (vermelho) */
+    --border-color: #333333;         /* Cor das bordas */
+}
+
 body {
-    background-color: #141414;
-    color: #ffffff;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
     font-family: 'Roboto', sans-serif; /* Uma fonte comum para TVs */
     overflow: hidden; /* Remove barras de rolagem */
     display: flex;
@@ -18,11 +30,20 @@ body {
 }
 
 /* --- ESTRUTURA PRINCIPAL --- */
+/* O #main-content agora envolve o player */
+#main-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .tv-container {
     position: relative; 
     display: flex;
-    height: 100vh; 
-    width: 100vw; 
+    flex-grow: 1; /* Ocupa o espaço restante */
+    height: 100%; 
+    width: 100%; 
     overflow: hidden;
 }
 
@@ -45,7 +66,7 @@ body {
     display: block; 
 }
 
-/* --- Overlay quando não há canal selecionado / Dicas --- */
+/* --- Overlays --- */
 .overlay {
     position: absolute;
     top: 0;
@@ -77,14 +98,13 @@ body {
 }
 
 .key-hint {
-    background-color: #E50914; /* Destaque vermelho */
+    background-color: var(--accent-color);
     padding: 5px 12px;
     border-radius: 5px;
     font-weight: bold;
     margin: 0 5px;
 }
 
-/* --- Overlay de Nome do Canal --- */
 .channel-info-overlay {
     position: absolute;
     bottom: 20px;
@@ -129,7 +149,7 @@ body {
     padding: 20px 20px 10px 20px; /* Ajuste o padding para não colidir com a categoria */
     font-size: 1.8em;
     font-weight: bold;
-    color: #E50914; 
+    color: var(--accent-color); 
     text-align: left;
     margin-bottom: 5px;
     position: sticky; 
@@ -144,7 +164,7 @@ body {
     font-weight: bold;
     color: #aaa;
     margin-top: 10px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .channel-item {
@@ -153,7 +173,7 @@ body {
     padding: 10px 20px; /* Ajuste para menos padding vertical */
     margin-bottom: 2px;
     font-size: 1.2rem;
-    color: #aaa;
+    color: var(--secondary-text-color);
     text-decoration: none;
     border-left: 5px solid transparent; 
     transition: background-color 0.2s ease, color 0.2s ease, border-left-color 0.2s ease;
@@ -169,20 +189,18 @@ body {
     border-radius: 5px; 
 }
 
-/* Foco para controle remoto/teclado */
 .channel-item:focus {
-    background-color: #222;
-    color: #fff;
-    border-left-color: #E50914; 
+    background-color: var(--surface-color);
+    color: var(--primary-text-color);
+    border-left-color: var(--accent-color); 
     outline: none; 
 }
 
-/* Quando o canal é o que está tocando */
 .channel-item.active {
-    background-color: #E50914; 
-    color: #ffffff;
+    background-color: var(--accent-color); 
+    color: var(--primary-text-color);
     font-weight: bold;
-    border-left-color: #fff; 
+    border-left-color: var(--primary-text-color); 
 }
 
 /* Scrollbar estilizada */
@@ -191,10 +209,232 @@ body {
 }
 
 .channel-list::-webkit-scrollbar-track {
-    background: #333;
+    background: var(--border-color);
 }
 
 .channel-list::-webkit-scrollbar-thumb {
-    background-color: #E50914;
+    background-color: var(--accent-color);
     border-radius: 4px;
+}
+
+/* ======================================== */
+/* --- ESTILOS DE AUTH E MODAIS --- */
+/* ======================================== */
+
+.hidden {
+    display: none !important;
+}
+
+/* Header principal com o menu do usuário */
+.main-header {
+    display: flex;
+    justify-content: center; /* Centraliza o título */
+    align-items: center;
+    position: relative; /* Necessário para posicionar o #user-session */
+    padding: 15px 20px;
+    background-color: #000;
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+    z-index: 30; /* Acima do player, abaixo do menu de canais */
+}
+
+.main-title {
+    margin: 0;
+    font-size: 1.8em;
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+#user-session {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 100; 
+}
+
+/* ESTILO PARA O ÍCONE/MENU */
+#settings-icon {
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    padding: 5px;
+    transition: color 0.3s;
+}
+#settings-icon:hover {
+    color: var(--accent-color);
+}
+
+#account-menu {
+    position: absolute;
+    top: 100%; /* Posiciona abaixo do ícone */
+    right: 0;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    overflow: hidden;
+    width: 180px; 
+    margin-top: 10px;
+}
+
+#account-menu button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--primary-text-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+#account-menu button:hover {
+    background-color: var(--border-color);
+}
+
+/* Contêineres de Auth e Recarga */
+#auth-container, #recharge-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 400px;
+    width: 90%;
+    margin: 0;
+    padding: 30px;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border: 1px solid var(--border-color);
+    z-index: 200;
+}
+
+/* Estilo do modal de Resgate */
+#redeem-code-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 250; /* Acima do overlay */
+    max-width: 450px;
+    width: 90%;
+    margin: 0; 
+    padding: 30px;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border: 1px solid var(--border-color);
+}
+
+/* Overlay para o modal */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 240; /* Abaixo do modal, acima de todo o resto */
+}
+
+.form-container h2 {
+    text-align: center;
+    color: var(--accent-color);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+}
+.form-container .form-group {
+    margin-bottom: 15px;
+}
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+}
+.form-container input {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    color: var(--primary-text-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-color);
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+.form-container button[type="submit"]:hover {
+    background-color: #c40812; /* Vermelho mais escuro no hover */
+}
+.toggle-form {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+.toggle-form a {
+    color: var(--accent-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
+.message {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    min-height: 1.2em;
+}
+#recharge-container p {
+    text-align: center;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* Botão de Sair geral */
+.logout-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.logout-button:hover {
+    background-color: #c40812;
+}
+        
+/* Estilo para o botão que deve APENAS fechar o modal */
+.modal-close-button {
+    width: 100%; 
+    padding: 12px; 
+    font-weight: bold; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    background-color: var(--surface-color); 
+    border: 1px solid var(--border-color); 
+    color: var(--primary-text-color); 
+    margin-top: 15px;
+}
+.modal-close-button:hover {
+    background-color: var(--border-color);
 }
